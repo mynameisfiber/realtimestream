@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=1024, user-scalable=no">
+
+	<title>Realtime Stream Processing</title>
+	
+	<!-- Required stylesheet -->
+	<link rel="stylesheet" href="core/deck.core.css">
+	
+	<!-- Extension CSS files go here. Remove or add as needed. -->
+	<link rel="stylesheet" href="extensions/goto/deck.goto.css">
+	<link rel="stylesheet" href="extensions/menu/deck.menu.css">
+	<link rel="stylesheet" href="extensions/navigation/deck.navigation.css">
+	<link rel="stylesheet" href="extensions/status/deck.status.css">
+	<link rel="stylesheet" href="extensions/hash/deck.hash.css">
+	<link rel="stylesheet" href="extensions/scale/deck.scale.css">
+
+	<!-- Style theme. More available in /themes/style/ or create your own. -->
+    <!--<link rel="stylesheet" href="themes/style/web-2.0.css">-->
+    <link rel="stylesheet" href="themes/style/swiss.css">
+	
+	<!-- Transition theme. More available in /themes/transition/ or create your own. -->
+	<link rel="stylesheet" href="themes/transition/horizontal-slide.css">
+	
+	<!-- Required Modernizr file -->
+	<script src="modernizr.custom.js"></script>
+</head>
+<body class="deck-container">
+
+<!-- Begin slides. Just make elements with a class of slide. -->
+
+<section class="slide">
+    <div class="vcenter">
+	    <h1>Realtime Stream Processing</h1>
+        <h3>
+            Micha Gorelick<br><br>
+            @mynameisfiber<br>
+            micha@bit.ly<br>
+            github.com/mynameisfiber
+        </h3>
+    </div>
+</section>
+
+<section class="slide">
+	<h1>Why streams?</h1>
+</section>
+<section class="slide">
+	<h1>THERE IS A LOT OF DATA!</h1>
+</section>
+<section class="slide">
+    <h1>Streams move fast, we need some infrastructure to support it</h1>
+</section>
+<section class="slide">
+	<h1>enter: SimpleHttp</h1>
+</section>
+<section class="slide">
+	<h2>SimpleHttp</h2>
+    <ol>
+        <li>Open Source</li>
+        <li>Provides simple bindings to various utilities including:</li>
+        <ul>
+            <li>Databases</li>
+            <li>Queues</li>
+            <li>Pubsubs</li>
+        </ul>
+        <li>Everything is done with HTTP GET/POST requests which means there are no compatability issues</li>
+    </ol>
+    <h3 align=center>We will focus on PUBSUBS and QUEUES</h3>
+</section>
+<section class="slide">
+    <h1>WTF is a <strike>plurbsurb</strike> pubsub?</h1>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h2>pubsub ~= Town Crier</h2>
+        <h3>Takes information from the "king" and distributes it out to the villagers</h3>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <img height=100% src="images/basic_pubsub_themed.png">
+        <div class="slide">Data comes in from our data sources and the pubsub <strong>pub</strong>lishes the data to all of the <strong>sub</strong>scribers</div>
+    </div>
+</section>
+<section class="slide">
+    <h1>Looks perfect!<br>No further work needed... right?</h1>
+</section>
+<section class="slide">
+    <h1>What if data is coming in faster than we can process?</h1>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <img src="images/BombCat.jpg">
+        <div class="slide">The processors will timeout and miss messages from the pubsub</div>
+    </div>
+</section>
+<section class="slide">
+    <h1>unacceptable!</h1>
+</section>
+
+<section class="slide">
+    <div class="vcenter">
+        <h1>enter: simple<em>queue</em></h1>
+        <h2>simple, network based queue system</h2>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h2>queue ~= secretary</h2>
+        <h3>data processors are busy things! we need someone to help them manage their tasks</h3>
+        <h3>queues store messages on a stack until requested</h3>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <img width=100% src="images/queued_pubsub.png">
+    </div>
+</section>
+
+
+<!-- End slides. -->
+
+
+<!-- Begin extension snippets. Add or remove as needed. -->
+
+<!-- deck.navigation snippet -->
+<a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+<a href="#" class="deck-next-link" title="Next">&#8594;</a>
+
+<!-- deck.status snippet -->
+<p class="deck-status">
+	<span class="deck-status-current"></span>
+	/
+	<span class="deck-status-total"></span>
+</p>
+
+<!-- End extension snippets. -->
+
+
+<!-- Required JS files. -->
+<script src="jquery-1.7.2.min.js"></script>
+<script src="core/deck.core.js"></script>
+
+<!-- Extension JS files. Add or remove as needed. -->
+<script src="core/deck.core.js"></script>
+<script src="extensions/hash/deck.hash.js"></script>
+<script src="extensions/menu/deck.menu.js"></script>
+<script src="extensions/status/deck.status.js"></script>
+<script src="extensions/navigation/deck.navigation.js"></script>
+<script src="extensions/scale/deck.scale.js"></script>
+
+<!-- Initialize the deck. You can put this in an external file if desired. -->
+<script>
+	$(function() {
+		$.deck('.slide');
+	});
+</script>
+</body>
+</html>
