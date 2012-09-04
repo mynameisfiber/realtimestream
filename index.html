@@ -9,6 +9,7 @@
 	
 	<!-- Required stylesheet -->
 	<link rel="stylesheet" href="core/deck.core.css">
+    <link rel="stylesheet" href="extensions/highlight.js/solarized_dark.css">
 	
 	<!-- Extension CSS files go here. Remove or add as needed. -->
 	<link rel="stylesheet" href="extensions/goto/deck.goto.css">
@@ -119,6 +120,127 @@
         <img width=100% src="images/queued_pubsub.png">
     </div>
 </section>
+<section class="slide">
+    <h1>The Tools</h1>
+</section>
+<section class="slide">
+    <h2><code>pubsub</code></h2>
+    <ul>
+        <li>simple HTTP interface to a pubsub</li>
+        <li><code>/pub</code> to publish a message, <code>/sub</code> to suscribe</li>
+    </ul>
+    <h2><code>ps_to_http</code></h2>
+    <ul>
+        <li>simple pubsub subscriber that pushes messages to a queue</li>
+    </ul>
+    <h2><code>simplequeue</code></h2>
+    <ul>
+        <li>simple HTTP interface to a network queue</li>
+        <li><code>/put</code> to put a message on the queue, <code>/get</code> to get the top item</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Start the pubsub</h2>
+    <pre style="border: none">
+        <code class="bash">$ pubsub
+registering callback for path "/pub*"
+registering callback for path "/sub*"
+registering callback for path "/stats*"
+registering callback for path "/clients"
+listening on 0.0.0.0:8080</code>
+    </pre>
+</section>
+<section class="slide">
+    <h2>Start a queue</h2>
+    <pre style="border: none">
+        <code class="bash">$ simplequeue --port=8081
+Version: 1.3, http://code.google.com/p/simplehttp/
+use --help for options
+registering callback for path "/put*"
+registering callback for path "/get*"
+registering callback for path "/mget*"
+registering callback for path "/mput*"
+registering callback for path "/dump*"
+registering callback for path "/stats*"
+listening on 0.0.0.0:8080</code>
+    </pre>
+</section>
+<section class="slide">
+    <h2>Connect the pubsub to the queue</h2>
+    <pre style="border: none">
+        <code class="bash">$ ps_to_http --destination-get-url="http://127.0.0.1:8081/put?data=%s" --pubsub-url="http://127.0.0.1:8080/sub?multipart=0"
+AUTODETECTING ENCODING FOR http://127.0.0.1:8080/sub?multipart=0
+CONNECTING TO SOURCE http://127.0.0.1:8080/sub?multipart=0</code>
+    </pre>
+</section>
+
+
+<section class="slide">
+    <h1>Great... what can I do with streams?</h1>
+</section>
+<section class="slide">
+    <h1>MATH!</h1>
+</section>
+<section class="slide">
+    <h2>Online Algorithms</h2>
+    <ul>
+        <li>Algorithms that update per datapoint</li>
+        <li>Perfect for streams: algorithms are single pass and don't require batch operations</li>
+    </ul>
+
+    <h2>Examples</h2>
+    <ul>
+        <li><a href="http://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#On-line_algorithm">Mean/variance</a></li>
+        <li>Rate calculations</li>
+        <li>Graph/Tree traversals</li>
+        <li><a href="http://books.nips.cc/papers/files/nips12/0251.pdf">Gaussian Processes</a></li>
+        <li><a href="http://lvk.cs.msu.su/~bruzz/articles/classification/Bayesian%20Online%20Classifiers%20for%20Text%20Classification%20and%20Filtering.pdf">Baysian Classifiers</a></li>
+    </ul>
+</section>
+
+<section class="slide">
+    <div class="vcenter">
+        <h2>First, let's check out the data source!</h2>
+        <pre align=left>
+$ curl -s http://developer.usa.gov/1usagov | head
+{ "a": "Mozilla\/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident\/5.0)", "c": "US", "nk": 0, "tz": "America\/Chicago", "gr": "MN", "g": "lyz2Nv", "h": "lyz2Nv", "l": "bitly", "al": "en-US", "hh": "1.usa.gov", "r": "http:\/\/www.usa.gov\/index.shtml", "u": "http:\/\/answers.usa.gov\/system\/selfservice.controller?CONFIGURATION=1000&PARTITION_ID=1&CMD=VIEW_ARTICLE&USERTYPE=1&LANGUAGE=en&COUNTRY=US&ARTICLE_ID=10564", "t": 1346619003, "hc": 1308822087, "cy": "Minneapolis", "ll": [ 44.982300, -93.306297 ] }
+{ "a": "Mozilla\/5.0 (Windows NT 5.1; rv:16.0) Gecko\/20100101 Firefox\/16.0", "c": "AL", "nk": 0, "tz": "Europe\/Tirane", "gr": "50", "g": "lsXHeB", "h": "PUqRZD", "l": "o_7vnmt0sji3", "al": "en-US,en;q=0.5", "hh": "1.usa.gov", "r": "http:\/\/www.cssmania.com\/page\/2\/", "u": "http:\/\/utah.gov\/index.html", "t": 1346619016, "hc": 1346055424, "cy": "Tirana", "ll": [ 41.327499, 19.818899 ] }
+        </pre>
+    </div>
+</section>
+<section class="slide">
+    <pre>
+{
+    "a": "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)",
+    "c": "US",
+    "nk": 0,
+    "tz": "America/Chicago",
+    "gr": "MN",
+    "g": "lyz2Nv",
+    "h": "lyz2Nv",
+    "l": "bitly",
+    "al": "en-US",
+    "hh": "1.usa.gov",
+    "r": "http://www.usa.gov/index.shtml",
+    "u": "http://answers.usa.gov/....",
+    "t": 1346619003,
+    "hc": 1308822087,
+    "cy": "Minneapolis",
+    "ll": [
+        44.9823,
+        -93.306297
+    ]
+}
+    </pre>
+</section>
+
+<section class="slide">
+    <div class="vcenter">
+        <h1>Intentionally left blank</h1>
+        <h3>(or was it?)</h3>
+    </div>
+</section>
 
 
 <!-- End slides. -->
@@ -152,8 +274,17 @@
 <script src="extensions/navigation/deck.navigation.js"></script>
 <script src="extensions/scale/deck.scale.js"></script>
 
+<!-- MathJax -->
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<!-- highlight.js -->
+<script type="text/javascript" src="extensions/highlight.js/highlight.pack.js"></script>
+
 <!-- Initialize the deck. You can put this in an external file if desired. -->
 <script>
+    hljs.tabReplace = '    '; // 4 spaces
+    hljs.initHighlightingOnLoad();
+
 	$(function() {
 		$.deck('.slide');
 	});

@@ -204,6 +204,14 @@ body.deck-container {
   padding-top: 1em;
   max-height: 100%;
 }
+
+.slide .normal {
+    font-weight: normal;
+    font-size: 0.7em;
+    text-align: left;
+    border: none;
+}
+
 .csstransforms .slide h1, .csstransforms .slide .vcenter {
   padding: 0 48px;
   position: absolute;
