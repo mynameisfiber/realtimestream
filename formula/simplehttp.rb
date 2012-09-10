@@ -1,8 +1,5 @@
 require 'formula'
 
-# Documentation: https://github.com/mxcl/homebrew/wiki/Formula-Cookbook
-# PLEASE REMOVE ALL GENERATED COMMENTS BEFORE SUBMITTING YOUR PULL REQUEST!
-
 class Simplehttp < Formula
   homepage 'https://github.com/bitly/simplehttp'
   url 'https://github.com/bitly/simplehttp.git'

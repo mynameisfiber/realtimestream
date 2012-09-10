@@ -28,16 +28,17 @@ The easiest way to install the required programs is to first install [homebrew](
 
   1. Install GCC from XCode (see step 1-2 in [this tutorial](http://www.moncefbelyamani.com/how-to-install-xcode-homebrew-git-rvm-ruby-on-mac/))
   2. Follow the instructions on http://mxcl.github.com/homebrew/ to install homebrew (see step 3 in [this tutorial](http://www.moncefbelyamani.com/how-to-install-xcode-homebrew-git-rvm-ruby-on-mac/))
-  3. `wget https://github.com/downloads/mynameisfiber/realtimestream/brew_formulas.0.1.tar.gz && tar -xvzf brew_formulas.0.1.tar.gz -C /usr/local/Library/Formula/`
+  3. `f="brew_formulas.0.1.tar.gz" ; wget "https://github.com/downloads/mynameisfiber/realtimestream/${f}" && tar -xvzf "${f}" -C /usr/local/Library/Formula/ ; rm "${f}"`
   4. `brew install simplequeue pubsub redis`
-  5. `sudo easy_install pip`
-  6. `sudo pip install numpy pysimplehttp redis`
+  5. `brew test simplequeue pubsub`
+  6. `sudo easy_install pip`
+  7. `sudo pip install numpy pysimplehttp redis`
 
 ## Ubuntu guide ##
 
 To get started in ubuntu, we first use `aptitude` to get dependencies, and then we use `pip` to download the python libraries and manually compile the requirements in `simplehttp`.
 
-  1. `sudo apt-get install make gcc redis-server libevent1-dev libcurl4-openssl-dev ipython python-pip python-redis python-numpy git`
+  1. `sudo apt-get install make gcc libevent1-dev libcurl4-openssl-dev redis-server ipython python-pip python-redis python-numpy git`
   2. `sudo pip install pysimplehttp`
   3. `git clone https://github.com/bitly/simplehttp.git`
   4. `cd simplehttp/simplehttp`
@@ -49,4 +50,4 @@ To get started in ubuntu, we first use `aptitude` to get dependencies, and then 
 
 ## Windows guide ##
 
-We currently do not support windows.  If you have any success installing the required programs in windows, please tell us so we can update this section!  For the python requirements, `pip` and `enthought` will be useful.
+We currently do not support windows.  If you have any success installing the required programs in windows, please tell us so we can update this section!  For the python requirements, [`pip`](http://pypi.python.org/pypi/pip) and [`enthought`](http://www.enthought.com/) will be useful.

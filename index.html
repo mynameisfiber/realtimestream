@@ -46,7 +46,10 @@
 </section>
 
 <section class="slide">
-    <h1><a href="http://github.com/mynameisfiber/realtimestream/">Tutorial Git Repository</a></h1>
+    <div class="vcenter">
+        <h1><a href="http://github.com/mynameisfiber/realtimestream/">Tutorial Git Repository</a></h1>
+        <h1><a href="http://mynameisfiber.github.com/realtimestream/">Rendered Slides</a></h1>
+    </div>
 </section>
 
 <section class="slide">
@@ -179,7 +182,51 @@ AUTODETECTING ENCODING FOR http://127.0.0.1:8080/sub?multipart=0
 CONNECTING TO SOURCE http://127.0.0.1:8080/sub?multipart=0</code>
     </pre>
 </section>
+<section class="slide">
+    <div class="vcenter">
+        <h1>Congrats! You setup a data pipeline</h1>
+        <h5>(with no data)</h5>
+    </div>
+</section>
+<section class="slide">
+    <h2>Adding data is easy!</h2>
+    <pre style="border: none">
+        <code class="bash">$ echo "H3110" | curl -d@- "http://localhost:8080/pub"
+Published 1 messages to 1 clients.</code>
+    </pre>
+</section>
+<section class="slide">
+    <h2>And Fetching data is also easy!</h2>
+    <pre style="border: none">
+        <code class="bash">$ curl "http://localhost:8081/stats"
+puts:1
+gets:0
+depth:1
+depth_high_water:1
+bytes:5
+overflow:0
+$ curl "http://localhost:8081/get"
+<strong style="color: red;">H3110</strong>$ curl "http://localhost:8081/stats"
+puts:1
+gets:1
+depth:0
+depth_high_water:1
+bytes:0
+overflow:0</code>
+    </pre>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h2>Now You!</h2>
+        <h5>Create a pubsub/simplequeue chain, add data to it and retrieve it.</h5>
 
+        <h2>You'll be done when you:</h2>
+        <ol align=left>
+            <li>Understand the flow of data through the pubsub/simplequeue chain</li>
+            <li>Experimented with and understand the message guarentees with multiple simplequeues or data consumers</li>
+        </ol>
+    </div>
+</section>
 
 <!--
 Next:
