@@ -35,16 +35,15 @@ The easiest way to install the required programs is to first install [homebrew](
 
 To get started in ubuntu, we first use `aptitude` to get dependencies, and then we use `pip` to download the python libraries and manually compile the requirements in `simplehttp`.
 
-  1. `apt-get install redis-server libevent-1.4-2 python-pip python-numpy git`
-  2. `sudo easy_install pip`
-  3. `sudo pip install pysimplehttp`
-  4. `git clone https://github.com/bitly/simplehttp.git`
-  5. `cd simplehttp/simplehttp`
-  6. `make ; sudo make install`
-  7. `cd ../pubsub/`
-  8. `make ; sudo make install`
-  9. `cd ../simplequeue`
-  10. `make ; sudo make install`
+  1. `sudo apt-get install make gcc redis-server libevent1-dev libcurl4-openssl-dev ipython python-pip python-redis python-numpy git`
+  2. `sudo pip install pysimplehttp`
+  3. `git clone https://github.com/bitly/simplehttp.git`
+  4. `cd simplehttp/simplehttp`
+  5. `make ; sudo make install`
+  6. `cd ../pubsub/`
+  7. `make ; sudo make install`
+  8. `cd ../simplequeue`
+  9. `make ; sudo make install`
 
 ## Windows guide ##
 
