@@ -198,15 +198,15 @@ Published 1 messages to 1 clients.</code>
 <section class="slide">
     <h2>And Fetching data is also easy!</h2>
     <pre style="border: none">
-        <code class="bash">$ curl "http://localhost:8081/stats"
+        <code class="bash">$ curl -s "http://localhost:8081/stats"
 puts:1
 gets:0
 depth:1
 depth_high_water:1
 bytes:5
 overflow:0
-$ curl "http://localhost:8081/get"
-<strong style="color: red;">H3110</strong>$ curl "http://localhost:8081/stats"
+$ curl -s "http://localhost:8081/get"
+<strong style="color: red;">H3110</strong>$ curl -s "http://localhost:8081/stats"
 puts:1
 gets:1
 depth:0
@@ -216,14 +216,90 @@ overflow:0</code>
     </pre>
 </section>
 <section class="slide">
-    <div class="vcenter">
+    <div>
         <h2>Now You!</h2>
         <h5>Create a pubsub/simplequeue chain, add data to it and retrieve it.</h5>
 
         <h2>You'll be done when you:</h2>
         <ol align=left>
             <li>Understand the flow of data through the pubsub/simplequeue chain</li>
-            <li>Experimented with and understand the message guarentees with multiple simplequeues or data consumers</li>
+            <li>Thought this is AWESOME at least 3 times</li>
+        </ol>
+    </div>
+</section>
+
+<section class="slide">
+    <div class="vcenter">
+        <h1>So... I have to do everything with curl?</h1>
+        <h2>or: why python is so amazing</h2>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h1>enter: pysimplehttp</h1>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h2>pysimplehttp.BaseReader ~= translator</h2>
+        <h3>abstracts the low level simplehttp protocol into something more useful</h3>
+        <h3>you simply define tasks on data and the BaseReader will perform all tasks on all data in the simplequeue!</h3>
+        <h3>NOTE: BaseReader operates on JSON blobs</h3>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>pysimplehttp.BaseReader</h2>
+        <h3>The important bits:</h3>
+        <pre class="python" style="border: none; white-space: pre;" width=100%>
+BaseReader(
+    simplequeue_address,    # location of data ("http://localhost:8081")
+    all_tasks,              # dict of functions, all of which get all data
+    queuename=None,         # optional name for the queue
+    max_tries=5,            # how many times to retry on piece of data
+    requeue_delay=90,       # time data waits after being requeued
+    mget_items=0,           # batch size to fetch from simplequeue
+    preprocess_method=None, # function to preprocess data
+    validate_method=None,   # function that decides to process a given data
+    requeue_giveup=None,    # function to run on data we give up on
+)</pre>
+    <h6 align=center>Read the docs! There are a bunch of other cool options</h6>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h2>Simple Example</h2>
+        <pre style="border: none;" align=left><code class="python">
+from pysimplehttp.BaseReader import BaseReader
+
+def print_message(data):
+    print data
+    return True
+
+if __name__ == "__main__":
+    tasks = {"print" : print_message}
+    reader = BaseReader("http://localhost:8081", tasks, queuename="message_printer")
+    reader.run()
+        </code></pre>
+        <pre style="border: none;" align=left><code class="bash">
+$ echo '{"msg" : "H3110"}' | curl -d@- "http://localhost:8080/pub"
+Published 1 messages to 1 clients.
+        </code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Now You!</h2>
+        <h5>Connect to a simplequeue that outputs random numbers, \( x \in [0,1) \), using BatchReader.</h5>
+        <h5>Fail on a message every once in a while... what happens to it?</h5>
+        <h5>See what happens when multiple readers connect</h5>
+        <h5>Extra: With <code>preprocess_method</code>, only accept numbers in (0.5, 1.0).</h5>
+        <h5>Extra: With <code>validate_method</code>, only consume 25% of the stream.</h5>
+
+        <h2>You'll be done when you:</h2>
+        <ol align=left>
+            <li>Experimented with and understand the message guarantees with multiple pubsub subscribers or data consumers</li>
+            <li>Extra: can you say anything about the statistics of the numbers through the reader?</li>
         </ol>
     </div>
 </section>
@@ -269,11 +345,44 @@ Next:
     <h2>Examples</h2>
     <ul>
         <li><a href="http://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#On-line_algorithm">Mean/variance</a></li>
-        <li>Rate calculations</li>
-        <li>Graph/Tree traversals</li>
+        <li><a href="http://www.mitpressjournals.org/doi/abs/10.1162/NECO_a_00156">Rate estimation</a></li>
+        <li><a href="http://www.springerlink.com/content/d3n14457807q5346/">Graph/Tree traversals</a></li>
         <li><a href="http://books.nips.cc/papers/files/nips12/0251.pdf">Gaussian Processes</a></li>
         <li><a href="http://lvk.cs.msu.su/~bruzz/articles/classification/Bayesian%20Online%20Classifiers%20for%20Text%20Classification%20and%20Filtering.pdf">Baysian Classifiers</a></li>
+        <li><a href="http://www.cs.technion.ac.il/~rani/book.html">... and many more!</a></li>
     </ul>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h2>Let's start easy...</h2>
+        <h3>Calculate the mean/variance for a stream of random numbers</h3>
+    </div>
+</section>
+<section class="slide">
+    <h1>First, the algorithm!</h1>
+</section>
+<section class="slide">
+    <div>
+        <h2>Knuth's Algorithm</h2>
+        <ul>
+            <li>mean = \( \bar{x}_n = \bar{x}_{n-1} + \frac{x_n - \bar{x}_{n-1}}{n} \)</li>
+            <li>aux variable = \( M_n = M_{n-1} + \left( x_n - \bar{x}_n \right)^2 \)</li>
+            <li>sample variance = \( \frac{M_n}{n-1} \)</li>
+            <li>population variance = \( \frac{M_n}{n} \)</li>
+        </ul>
+        <h2>pseudo-code</h2>
+        <pre style="border: none;" align=left><code class="python">mean, M2, n = 0,0,0
+def online_mean(x):
+    # Update variables
+    n += 1
+    mean += (x - mean)/n
+    M2 += (x - mean)**2
+
+    # Calculate variance
+    var_n = M2/(n-1)
+    var = M2/n
+    return mean, var_n, var</code></pre>
+    </div>
 </section>
 
 <section class="slide">
@@ -352,7 +461,7 @@ $ curl -s http://developer.usa.gov/1usagov | head
 <script src="slides/extensions/scale/deck.scale.js"></script>
 
 <!-- MathJax -->
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" src="http://c328740.r40.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 <!-- highlight.js -->
 <script type="text/javascript" src="slides/extensions/highlight.js/highlight.pack.js"></script>
