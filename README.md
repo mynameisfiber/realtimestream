@@ -11,7 +11,7 @@ You will need to have the following installed:
   * [Python 2.7](http://python.org/)
       * [tornado](http://pypi.python.org/pypi/tornado/2.4)
       * [numpy](http://pypi.python.org/pypi/numpy/1.6.2)
-      * [pysimplehttp](http://pypi.python.org/pypi/pysimplehttp/0.2.0)
+      * [pysimplehttp >=0.2.0](http://pypi.python.org/pypi/pysimplehttp/0.2.0)
   * [simplehttp](https://github.com/bitly/simplehttp)
   * [redis](http://redis.io/)
 
@@ -31,14 +31,14 @@ The easiest way to install the required programs is to first install [homebrew](
   3. `f="brew_formulas.0.1.tar.gz" ; wget "https://github.com/downloads/mynameisfiber/realtimestream/${f}" && tar -xvzf "${f}" -C /usr/local/Library/Formula/ ; rm "${f}"`
   4. `brew install simplequeue pubsub redis python`
   5. `brew test simplequeue pubsub`
-  6. `pip install numpy pysimplehttp redis` (you may want to consider using `virtualenv`)
+  6. `pip install numpy "pysimplehttp>=0.2.0" redis` (you may want to consider using `virtualenv`)
 
 ## Ubuntu guide ##
 
 To get started in ubuntu, we first use `aptitude` to get dependencies, and then we use `pip` to download the python libraries and manually compile the requirements in `simplehttp`.
 
   1. `sudo apt-get install make gcc libevent1-dev libcurl4-openssl-dev redis-server ipython python-pip python-redis python-numpy git`
-  2. `sudo pip install pysimplehttp`
+  2. `sudo pip install "pysimplehttp>=0.2.0"`
   3. `git clone https://github.com/bitly/simplehttp.git`
   4. `cd simplehttp/simplehttp`
   5. `make ; sudo make install`
