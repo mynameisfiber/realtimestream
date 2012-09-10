@@ -2,6 +2,8 @@
 
 This repo contains all the files required for the August 13th, 2012 tutorial "Realtime Stream Processing".  Below is the computing guide which outlines the technical requirements required to follow along.
 
+Rendered slides can be view at http://mynameisfiber.github.com/realtimestream/
+
 ## General Requirements ##
 
 You will need to have the following installed:
