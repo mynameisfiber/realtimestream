@@ -32,7 +32,7 @@ The easiest way to install the required programs is to first install [homebrew](
   3. `wget "https://github.com/downloads/mynameisfiber/realtimestream/brew_formulas.0.2.tar.gz"`
   4. `tar -xvzf "brew_formulas.0.2.tar.gz" -C /usr/local/Library/Formula/`
   5. `rm "brew_formulas.0.2.tar.gz"`
-  6. `brew install simplequeue pubsub redis python`
+  6. `brew install simplequeue pubsub ps_to_http redis python`
   7. `brew test simplequeue pubsub`
   8. `pip install numpy "pysimplehttp>=0.2.0" redis ujson host_pool` (you may want to consider using `virtualenv`)
     * Note: If you get an error installing ujson, don't sweat it.  Nothing depends on it, but it is a really great and fast alternative to json/simplejson.  Simply run `sudo pip "pysimplehttp>=0.2.0" redis host_pool`

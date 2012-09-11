@@ -1,6 +1,6 @@
 require 'formula'
 
-class Ps_to_http < Formula
+class PsToHttp < Formula
   homepage 'https://github.com/bitly/simplehttp'
   url 'https://github.com/bitly/simplehttp.git'
   version '0.5.4'
