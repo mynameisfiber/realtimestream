@@ -12,6 +12,7 @@ You will need to have the following installed:
       * [tornado](http://pypi.python.org/pypi/tornado/2.4)
       * [numpy](http://pypi.python.org/pypi/numpy/1.6.2)
       * [pysimplehttp >=0.2.0](http://pypi.python.org/pypi/pysimplehttp/0.2.0)
+      * [host_pool](http://pypi.python.org/pypi/host_pool/0.2)
   * [simplehttp](https://github.com/bitly/simplehttp)
   * [redis](http://redis.io/)
 
@@ -28,24 +29,27 @@ The easiest way to install the required programs is to first install [homebrew](
 
   1. Install GCC from XCode (see step 1-2 in [this tutorial](http://www.moncefbelyamani.com/how-to-install-xcode-homebrew-git-rvm-ruby-on-mac/))
   2. Follow the instructions on http://mxcl.github.com/homebrew/ to install homebrew (see step 3 in [this tutorial](http://www.moncefbelyamani.com/how-to-install-xcode-homebrew-git-rvm-ruby-on-mac/))
-  3. `f="brew_formulas.0.1.tar.gz" ; wget "https://github.com/downloads/mynameisfiber/realtimestream/${f}" && tar -xvzf "${f}" -C /usr/local/Library/Formula/ ; rm "${f}"`
-  4. `brew install simplequeue pubsub redis python`
-  5. `brew test simplequeue pubsub`
-  6. `pip install numpy "pysimplehttp>=0.2.0" redis` (you may want to consider using `virtualenv`)
+  3. `wget "https://github.com/downloads/mynameisfiber/realtimestream/brew_formulas.0.1.tar.gz"`
+  4. `tar -xvzf "brew_formulas.0.1.tar.gz" -C /usr/local/Library/Formula/`
+  5. `rm "brew_formulas.0.1.tar.gz"`
+  6. `brew install simplequeue pubsub redis python`
+  7. `brew test simplequeue pubsub`
+  8. `pip install numpy "pysimplehttp>=0.2.0" redis ujson host_pool` (you may want to consider using `virtualenv`)
 
 ## Ubuntu guide ##
 
 To get started in ubuntu, we first use `aptitude` to get dependencies, and then we use `pip` to download the python libraries and manually compile the requirements in `simplehttp`.
 
-  1. `sudo apt-get install make gcc libevent1-dev libcurl4-openssl-dev redis-server ipython python-pip python-redis python-numpy git`
-  2. `sudo pip install "pysimplehttp>=0.2.0"`
-  3. `git clone https://github.com/bitly/simplehttp.git`
-  4. `cd simplehttp/simplehttp`
-  5. `make ; sudo make install`
-  6. `cd ../pubsub/`
-  7. `make ; sudo make install`
-  8. `cd ../simplequeue`
-  9. `make ; sudo make install`
+  1. `sudo apt-get install make gcc libevent1-dev libcurl4-openssl-dev redis-server`
+  2. `sudo apt-get install ipython python-pip python-redis python-numpy git`
+  3. `sudo pip install "pysimplehttp>=0.2.0" ujson host_pool`
+  4. `git clone https://github.com/bitly/simplehttp.git`
+  5. `cd simplehttp/simplehttp`
+  6. `make ; sudo make install`
+  7. `cd ../pubsub/`
+  8. `make ; sudo make install`
+  9. `cd ../simplequeue`
+  10. `make ; sudo make install`
 
 ## Windows guide ##
 
