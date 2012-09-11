@@ -8,26 +8,26 @@
 	<title>Realtime Stream Processing</title>
 	
 	<!-- Required stylesheet -->
-	<link rel="stylesheet" href="slides/core/deck.core.css">
-    <link rel="stylesheet" href="slides/extensions/highlight.js/solarized_dark.css">
+	<link rel="stylesheet" href="deck.js/core/deck.core.css">
+    <link rel="stylesheet" href="deck.js/extensions/highlight.js/solarized_dark.css">
 	
 	<!-- Extension CSS files go here. Remove or add as needed. -->
-	<link rel="stylesheet" href="slides/extensions/goto/deck.goto.css">
-	<link rel="stylesheet" href="slides/extensions/menu/deck.menu.css">
-	<link rel="stylesheet" href="slides/extensions/navigation/deck.navigation.css">
-	<link rel="stylesheet" href="slides/extensions/status/deck.status.css">
-	<link rel="stylesheet" href="slides/extensions/hash/deck.hash.css">
-	<link rel="stylesheet" href="slides/extensions/scale/deck.scale.css">
+	<link rel="stylesheet" href="deck.js/extensions/goto/deck.goto.css">
+	<link rel="stylesheet" href="deck.js/extensions/menu/deck.menu.css">
+	<link rel="stylesheet" href="deck.js/extensions/navigation/deck.navigation.css">
+	<link rel="stylesheet" href="deck.js/extensions/status/deck.status.css">
+	<link rel="stylesheet" href="deck.js/extensions/hash/deck.hash.css">
+	<link rel="stylesheet" href="deck.js/extensions/scale/deck.scale.css">
 
 	<!-- Style theme. More available in /themes/style/ or create your own. -->
     <!--<link rel="stylesheet" href="themes/style/web-2.0.css">-->
-    <link rel="stylesheet" href="slides/themes/style/swiss.css">
+    <link rel="stylesheet" href="deck.js/themes/style/swiss.css">
 	
 	<!-- Transition theme. More available in /themes/transition/ or create your own. -->
-	<link rel="stylesheet" href="slides/themes/transition/horizontal-slide.css">
+	<link rel="stylesheet" href="deck.js/themes/transition/horizontal-slide.css">
 	
 	<!-- Required Modernizr file -->
-	<script src="slides/modernizr.custom.js"></script>
+	<script src="deck.js/modernizr.custom.js"></script>
 </head>
 <body class="deck-container">
 
@@ -36,12 +36,14 @@
 <section class="slide">
     <div class="vcenter">
 	    <h1>Realtime Stream Processing</h1>
+        <h2>Micha Gorelick</h2>
         <h3>
-            Micha Gorelick<br><br>
             @mynameisfiber<br>
             micha@bit.ly<br>
             github.com/mynameisfiber
         </h3>
+        <br><br>
+        <h2 style="font-size:1.75em;">w/ Mike Dewar && Dan Frank</h2>
     </div>
 </section>
 
@@ -49,6 +51,7 @@
     <div class="vcenter">
         <h1><a href="http://github.com/mynameisfiber/realtimestream/">Tutorial Git Repository</a></h1>
         <h1><a href="http://mynameisfiber.github.com/realtimestream/">Rendered Slides</a></h1>
+        <h6>(those are links!)</h6>
     </div>
 </section>
 
@@ -89,7 +92,7 @@
 </section>
 <section class="slide">
     <div class="vcenter">
-        <img height=100% src="slides/images/basic_pubsub_themed.png">
+        <img height=100% src="deck.js/images/basic_pubsub_themed.png">
         <div class="slide">Data comes in from our data sources and the pubsub <strong>pub</strong>lishes the data to all of the <strong>sub</strong>scribers</div>
     </div>
 </section>
@@ -101,7 +104,7 @@
 </section>
 <section class="slide">
     <div class="vcenter">
-        <img src="slides/images/BombCat.jpg">
+        <img src="deck.js/images/BombCat.jpg">
         <div class="slide">The processors will timeout and miss messages from the pubsub</div>
     </div>
 </section>
@@ -124,7 +127,7 @@
 </section>
 <section class="slide">
     <div class="vcenter">
-        <img width=100% src="slides/images/queued_pubsub.png">
+        <img width=100% src="deck.js/images/queued_pubsub.png">
     </div>
 </section>
 <section class="slide">
@@ -218,7 +221,9 @@ overflow:0</code>
 <section class="slide">
     <div>
         <h2>Now You!</h2>
-        <h5>Create a pubsub/simplequeue chain, add data to it and retrieve it.</h5>
+        <ul>
+            <li><h5>Create a pubsub/simplequeue chain, add data to it and retrieve it.</h5></li>
+        </ul>
 
         <h2>You'll be done when you:</h2>
         <ol align=left>
@@ -290,11 +295,13 @@ Published 1 messages to 1 clients.
 <section class="slide">
     <div>
         <h2>Now You!</h2>
-        <h5>Connect to a simplequeue that outputs random numbers, \( x \in [0,1) \), using BatchReader.</h5>
-        <h5>Fail on a message every once in a while... what happens to it?</h5>
-        <h5>See what happens when multiple readers connect</h5>
-        <h5>Extra: With <code>preprocess_method</code>, only accept numbers in (0.5, 1.0).</h5>
-        <h5>Extra: With <code>validate_method</code>, only consume 25% of the stream.</h5>
+        <ul>
+            <li><h5>Connect to a simplequeue that outputs random numbers, \( x \in [0,1) \), using BatchReader.</h5></li>
+            <li><h5>Fail on a message every once in a while... what happens to it?</h5></li>
+            <li><h5>See what happens when multiple readers connect</h5></li>
+            <li><h5>Extra: With <code>preprocess_method</code>, only accept numbers in (0.5, 1.0).</h5></li>
+            <li><h5>Extra: With <code>validate_method</code>, only consume 25% of the stream.</h5></li>
+        </ul>
 
         <h2>You'll be done when you:</h2>
         <ol align=left>
@@ -383,6 +390,53 @@ def online_mean(x):
     var = M2/n
     return mean, var_n, var</code></pre>
     </div>
+    <h5>note: this algorithm can even be used in parallel over multiple data consumers!</h5>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h1>This looks amazing!</h1>
+        <marquee behavior="alternate" scrollamount="20"><h1>USE IN ALL PLACES!</h1></marquee>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h2>Critical question: will it <strike>blend</strike> converge?</h2>
+        <h4>Online algorithms are generally more prone to numerical error that can yield incorrect answers!</h4>
+        <h6>(luckily, this one is quite stable!)</h6>
+    </div>
+</section>
+<section class="slide">
+    <h2>slight tangent: numerical stability</h2>
+    <h3>Algorithms generally go unstable when:</h3>
+    <ul>
+        <li>Two very similar numbers are subtracted from each-other (floating point error)</li>
+        <li>High precision is necessary in your calculation (ie: irrational numbers or significance in very small decimals)</li>
+        <li>The algorithm itself isn't stable (ie: \( \sum^{\infty}x^2 \))</li>
+    </ul>
+    <h3>Rules of Thumb</h3>
+    <ul>
+        <li>Try to keep your numbers as close to 1 as possible (ie: normalize!)</li>
+        <li>Simple algebraic manipulations may be enough to reformulate an algorithm to avoid floating point error (see <a href="http://en.wikipedia.org/wiki/Floating_point_error#Accuracy_problems">wiki/Floating point error#Accuracy Problems</a>)
+        <li><code>log</code> space is a nice place to be</li>
+        <li>Sometimes you just have to find a new algorithm or reformulate the problem!</li>
+    </ul>
+</section>
+<section class="slide">
+    <div>
+        <h2>Now You!</h2>
+        <ul>
+            <li><h5>Connect to a simplequeue of normally distributed random numbers and calculate the mean/variance of the numbers (output the result ever N samples)</h5></li>
+            <li><h5>Try changing the actual mean/variance of the generated numbers... how does the algorithm perform?</h5></li>
+            <li><h5>What happens when you try drawing random numbers from other distributions? (<a href="http://docs.scipy.org/doc/numpy/reference/routines.random.html">numpy.random</a>)</h5></li>
+        </ul>
+
+        <h2>You'll be done when you:</h2>
+        <ol align=left>
+            <li>Know what the secret mean/variance of my stream is!</li>
+            <li>Feel comfortable with your implementation of the algorithm</li>
+            <li>Understand possible stability concerns with the algorithm</li>
+        </ol>
+    </div>
 </section>
 
 <section class="slide">
@@ -423,9 +477,16 @@ $ curl -s http://developer.usa.gov/1usagov | head
 
 <section class="slide">
     <div class="vcenter">
+        <h1>And that's all I know</h1>
+        <h3>Love,</h3>
+        <h3>Micha</h3>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
         <h1>Intentionally left blank</h1>
         <h3>(or was it?)</h3>
-        <img src="http://wikieducator.org/images/a/af/Under_construction.gif">
+        <img src="http://netanimations.net/animated_flashing_construction_barracade.gif">
     </div>
 </section>
 
@@ -450,22 +511,22 @@ $ curl -s http://developer.usa.gov/1usagov | head
 
 
 <!-- Required JS files. -->
-<script src="slides/jquery-1.7.2.min.js"></script>
-<script src="slides/core/deck.core.js"></script>
+<script src="deck.js/jquery-1.7.2.min.js"></script>
+<script src="deck.js/core/deck.core.js"></script>
 
 <!-- Extension JS files. Add or remove as needed. -->
-<script src="slides/core/deck.core.js"></script>
-<script src="slides/extensions/hash/deck.hash.js"></script>
-<script src="slides/extensions/menu/deck.menu.js"></script>
-<script src="slides/extensions/status/deck.status.js"></script>
-<script src="slides/extensions/navigation/deck.navigation.js"></script>
-<script src="slides/extensions/scale/deck.scale.js"></script>
+<script src="deck.js/core/deck.core.js"></script>
+<script src="deck.js/extensions/hash/deck.hash.js"></script>
+<script src="deck.js/extensions/menu/deck.menu.js"></script>
+<script src="deck.js/extensions/status/deck.status.js"></script>
+<script src="deck.js/extensions/navigation/deck.navigation.js"></script>
+<script src="deck.js/extensions/scale/deck.scale.js"></script>
 
 <!-- MathJax -->
-<script type="text/javascript" src="http://c328740.r40.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 <!-- highlight.js -->
-<script type="text/javascript" src="slides/extensions/highlight.js/highlight.pack.js"></script>
+<script type="text/javascript" src="deck.js/extensions/highlight.js/highlight.pack.js"></script>
 
 <!-- Initialize the deck. You can put this in an external file if desired. -->
 <script>
