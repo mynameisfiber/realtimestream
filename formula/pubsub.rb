@@ -4,7 +4,7 @@ class Pubsub < Formula
   homepage 'https://github.com/bitly/simplehttp'
   url 'https://github.com/bitly/simplehttp.git'
   version '1.2'
-  sha1 '001a7fc6f68075bb74e389d7eb3d3c5c46e6f790'
+  sha1 '897ffd61c459b35ff91ddfc79199508fa2e2d777'
 
   depends_on "simplehttp"
   depends_on "openssl"

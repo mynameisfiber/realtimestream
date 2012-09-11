@@ -29,9 +29,9 @@ The easiest way to install the required programs is to first install [homebrew](
 
   1. Install GCC from XCode (see step 1-2 in [this tutorial](http://www.moncefbelyamani.com/how-to-install-xcode-homebrew-git-rvm-ruby-on-mac/))
   2. Follow the instructions on http://mxcl.github.com/homebrew/ to install homebrew (see step 3 in [this tutorial](http://www.moncefbelyamani.com/how-to-install-xcode-homebrew-git-rvm-ruby-on-mac/))
-  3. `wget "https://github.com/downloads/mynameisfiber/realtimestream/brew_formulas.0.1.tar.gz"`
-  4. `tar -xvzf "brew_formulas.0.1.tar.gz" -C /usr/local/Library/Formula/`
-  5. `rm "brew_formulas.0.1.tar.gz"`
+  3. `wget "https://github.com/downloads/mynameisfiber/realtimestream/brew_formulas.0.2.tar.gz"`
+  4. `tar -xvzf "brew_formulas.0.2.tar.gz" -C /usr/local/Library/Formula/`
+  5. `rm "brew_formulas.0.2.tar.gz"`
   6. `brew install simplequeue pubsub redis python`
   7. `brew test simplequeue pubsub`
   8. `pip install numpy "pysimplehttp>=0.2.0" redis ujson host_pool` (you may want to consider using `virtualenv`)

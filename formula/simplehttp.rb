@@ -4,7 +4,7 @@ class Simplehttp < Formula
   homepage 'https://github.com/bitly/simplehttp'
   url 'https://github.com/bitly/simplehttp.git'
   version '0.1.3'
-  sha1 '001a7fc6f68075bb74e389d7eb3d3c5c46e6f790'
+  sha1 '897ffd61c459b35ff91ddfc79199508fa2e2d777'
 
   depends_on "libevent14"
   depends_on "json-c"
