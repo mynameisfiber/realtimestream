@@ -9,7 +9,7 @@
 
 	<!-- Required stylesheet -->
 	<link rel="stylesheet" href="deck.js/core/deck.core.css">
-    <link rel="stylesheet" href="css/solarized_dark.css">
+    <link rel="stylesheet" href="http://yandex.st/highlightjs/7.2/styles/xcode.min.css">
 	
 	<!-- Extension CSS files go here. Remove or add as needed. -->
 	<link rel="stylesheet" href="deck.js/extensions/goto/deck.goto.css">
@@ -38,32 +38,47 @@
 
 <section class="slide">
     <div class="vcenter">
-	    <h1>Realtime Stream Processing</h1>
-        <h2>Micha Gorelick</h2>
-        <h3>
-            @mynameisfiber<br>
-            micha@bit.ly<br>
-            github.com/mynameisfiber
+	    <h1>Realtime Data Science</h1>
+        <h2>How to deal with realtime streams</h2>
+        <h3 style="font-size: 2em">Micha Gorelick</h3>
+        <h4>
+            <a href="http://twitter.com/mynameisfiber" style="color: #666">@mynameisfiber</a><br>
+            <a href="mailto:micha@bit.ly" style="color: #666">micha@bit.ly</a><br>
+            <a href="http://github.com/mynameisfiber/" style="color: #666">github.com/mynameisfiber</a>
         </h3>
-        <br><br>
-        <h2 style="font-size:1.75em;">w/ Mike Dewar && Dan Frank</h2>
+        <br>
+        <h3 style="font-size:1.75em;">w/ Mike Dewar && Dan Frank</h3>
     </div>
 </section>
 
 <section class="slide">
     <div class="vcenter">
-        <h1><a href="http://github.com/mynameisfiber/realtimestream/">Tutorial Git Repository</a></h1>
+        <h1><a href="http://github.com/mynameisfiber/realtimestream/">Git Repository</a></h1>
+        <br><br>
         <h1><a href="http://mynameisfiber.github.com/realtimestream/">Rendered Slides</a></h1>
         <h6>(those are links!)</h6>
     </div>
 </section>
 <section class="slide">
+    <div>
+        <h2>Outline</h2>
+        <ul>
+            <li><h4>Infrastructure + SimpleHTTP</h3>
+            <li><h4>Python + pySimpleHTTP</h3>
+            <li><h4>break!</h3>
+            <li><h4>Redis + Redis</h3>
+            <li><h4>Graphs + Awesome</h3>
+        </ul>
+
+        <h2>Note:</h2>
+        <h3>each section will have ~5 minutes of talking and then a lot of experimenting!</h3><br>
+        <h3>you have all my slides and all the code! i go fast but you don't need to scramble to take notes</h3>
+    </div>
+</section>
+<section class="slide">
     <div class="vcenter">
-        <h1>Outline</h1>
-        <h2>Infrastructure</h2>
-        <h2>Python + SimpleQueue</h2>
-        <h2>Redis</h2>
-        <h2>Putting it all together!</h2>
+        <h1>Audience</h1>
+        <h3><em>YOU!</em> So ask questions!</h3>
     </div>
 </section>
 
@@ -80,7 +95,10 @@
     </div>
 </section>
 <section class="slide">
-    <h1>Streams move fast, we need some infrastructure to support them</h1>
+    <div class="vcenter">
+        <h1>Streams move fast</h1>
+        <h3>we need some infrastructure to support them</h3>
+    </div>
 </section>
 <section class="slide">
 	<h1>enter: SimpleHttp</h1>
@@ -88,7 +106,8 @@
 <section class="slide">
 	<h2>SimpleHttp</h2>
     <ol>
-        <li>Open Source</li>
+        <li>Made by bitly!</li
+        <li>Open Source, <a href="http://github.com/bitly/simplehttp">http://github.com/bitly/simplehttp/</a></li>
         <li>Provides simple bindings to various utilities including:</li>
         <ul>
             <li>Databases</li>
@@ -105,13 +124,14 @@
 <section class="slide">
     <div class="vcenter">
         <h2>pubsub ~= Town Crier</h2>
-        <h3>Takes information from the "king" and distributes it out to the villagers</h3>
+        <h3>Takes information from the "king" and distributes it out to the "villagers"</h3>
     </div>
 </section>
 <section class="slide">
     <div class="vcenter">
         <img height=100% src="images/basic_pubsub_themed.png">
         <div>Data comes in from our data sources and the pubsub <strong>pub</strong>lishes the data to all of the <strong>sub</strong>scribers</div>
+        <div>note: there can be more than one data source all publishing to the same pubsub</div>
     </div>
 </section>
 <section class="slide">
@@ -157,15 +177,28 @@
         <li>simple HTTP interface to a pubsub</li>
         <li><code>/pub</code> to publish a message, <code>/sub</code> to subscribe</li>
     </ul>
-    <h2><code>ps_to_http</code></h2>
-    <ul>
-        <li>simple pubsub subscriber that pushes messages to a queue</li>
-    </ul>
     <h2><code>simplequeue</code></h2>
     <ul>
         <li>simple HTTP interface to a network queue</li>
         <li><code>/put</code> to put a message on the queue, <code>/get</code> to get the top item</li>
     </ul>
+    <h2><code>ps_to_http</code></h2>
+    <ul>
+        <li>simple pubsub subscriber that pushes messages to a queue</li>
+        <li>it's the glue between a <code>pubsub</code> and a <code>simplequeue</code></li>
+    </ul>
+</section>
+<section class="slide">
+    <div>
+        <br>
+        <h4><em>also...</em></h4>
+        <h2><code>curl</code></h2>
+        <ul>
+            <li>simple way to fetch a URL</li>
+            <li>similar to simply visiting the given url in the browser, but in the command line!</li>
+            <li>try running: <code>curl "http://google.com/"</code></li>
+        </ul>
+    </div>
 </section>
 
 <section class="slide">
@@ -177,6 +210,14 @@ registering callback for path "/sub*"
 registering callback for path "/stats*"
 registering callback for path "/clients"
 listening on 0.0.0.0:8080</code>
+    </pre>
+    <pre style="border: none">
+        <code class="bash">$ curl "http://localhost:8080/stats"
+Active connections: 0
+Total connections: 0
+Messages received: 0
+Messages sent: 0
+Kicked clients: 0</code>
     </pre>
 </section>
 <section class="slide">
@@ -192,6 +233,15 @@ registering callback for path "/mput*"
 registering callback for path "/dump*"
 registering callback for path "/stats*"
 listening on 0.0.0.0:8081</code>
+    </pre>
+    <pre style="border: none">
+        <code class="bash">$ curl localhost:8081/stats
+puts:0
+gets:0
+depth:0
+depth_high_water:0
+bytes:0
+overflow:0</code>
     </pre>
 </section>
 <section class="slide">
@@ -219,15 +269,15 @@ Published 1 messages to 1 clients.</code>
 <section class="slide">
     <h2>And Fetching data is also easy!</h2>
     <pre style="border: none">
-        <code class="bash">$ curl -s "http://localhost:8081/stats"
+        <code class="bash">$ curl -s "http://localhost:8081/stats" # get the stats for our simplequeue
 puts:1
 gets:0
 depth:1
 depth_high_water:1
 bytes:5
 overflow:0
-$ curl -s "http://localhost:8081/get"
-<strong style="color: red;">H3110</strong>$ curl -s "http://localhost:8081/stats"
+$ curl -s "http://localhost:8081/get" # fetch the data
+<strong style="color: red;">H3110</strong>$ curl -s "http://localhost:8081/stats" # look at the stats again
 puts:1
 gets:1
 depth:0
@@ -261,6 +311,7 @@ overflow:0</code>
 <section class="slide">
     <div class="vcenter">
         <h1>enter: pysimplehttp</h1>
+        <h3>(part of bitly's <a href="http://github.com/bitly/simplehttp/">simplehttp</a> project)</h3>
     </div>
 </section>
 <section class="slide">
@@ -275,18 +326,18 @@ overflow:0</code>
     <div>
         <h2>pysimplehttp.BaseReader</h2>
         <h3>The important bits:</h3>
-        <pre class="python" style="border: none; white-space: pre;" width=100%>
+        <pre style="border: none; white-space: pre;" width=100%><code class="python">
 BaseReader(
-    simplequeue_address,    # location of data ("http://localhost:8081")
-    all_tasks,              # dict of functions, all of which get all data
+    <font color=red>simplequeue_address</font>,    # location of data ("http://localhost:8081")
+    <font color=red>all_tasks</font>,              # dict of functions, all of which get all data
     queuename=None,         # optional name for the queue
-    max_tries=5,            # how many times to retry on piece of data
+    <font color=red>max_tries</font>=5,            # how many times to retry on piece of data
     requeue_delay=90,       # time data waits after being requeued
     mget_items=0,           # batch size to fetch from simplequeue
     preprocess_method=None, # function to preprocess data
     validate_method=None,   # function that decides to process a given data
     requeue_giveup=None,    # function to run on data we give up on
-)</pre>
+)</code></pre>
     <h6 align=center>Read the docs! There are a bunch of other cool options</h6>
     </div>
 </section>
@@ -294,20 +345,31 @@ BaseReader(
     <div class="vcenter">
         <h2>Simple Example</h2>
         <pre style="border: none;" align=left><code class="python">
+# examples/01_simple_reader.py
 from pysimplehttp.BaseReader import BaseReader
+from pysimplehttp.http import pubsub_write
 
 def print_message(data):
     print data
-    return True
+    return True # we must return True to say our tasked finished correctly
 
 if __name__ == "__main__":
-    tasks = {"print" : print_message}
+    tasks = {"print" : print_message} # tasks are named for logging
     reader = BaseReader("http://localhost:8081", tasks, queuename="message_printer")
+
+    # There is also easy utilities to write to a pubsub!
+    pubsub_write("http://localhost:8080", {'msg' : 'H4110!'})
+
     reader.run()
         </code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h2>Simple Example (cont)</h2>
         <pre style="border: none;" align=left><code class="bash">
-$ echo '{"msg" : "H3110"}' | curl -d@- "http://localhost:8080/pub"
-Published 1 messages to 1 clients.
+$ python examples/01_simple_reader.py
+{u'msg': u'H3110'}
         </code></pre>
     </div>
 </section>
@@ -362,6 +424,9 @@ Next:
     <h1>MATH!</h1>
 </section>
 <section class="slide">
+    <h1>FAST MATH!</h1>
+</section>
+<section class="slide">
     <h2>Online Algorithms</h2>
     <ul>
         <li>Algorithms that update per datapoint</li>
@@ -391,25 +456,14 @@ Next:
     <div>
         <h2>Knuth's Algorithm</h2>
         <ul>
+            <li>define: \( x_n = \) observation @ time n
             <li>mean = \( \bar{x}_n = \bar{x}_{n-1} + \frac{x_n - \bar{x}_{n-1}}{n} \)</li>
             <li>aux variable = \( M_n = M_{n-1} + \left( x_n - \bar{x}_n \right)^2 \)</li>
             <li>sample variance = \( \frac{M_n}{n-1} \)</li>
             <li>population variance = \( \frac{M_n}{n} \)</li>
         </ul>
-        <h2>pseudo-code</h2>
-        <pre style="border: none;" align=left><code class="python">mean, M2, n = 0,0,0
-def online_mean(x):
-    # Update variables
-    n += 1
-    mean += (x - mean)/n
-    M2 += (x - mean)**2
-
-    # Calculate variance
-    var_n = M2/(n-1)
-    var = M2/n
-    return mean, var_n, var</code></pre>
-    </div>
     <h5>note: this algorithm can even be used in parallel over multiple data consumers!</h5>
+    </div>
 </section>
 <section class="slide">
     <div class="vcenter">
@@ -492,7 +546,7 @@ def online_mean(x):
             <li><h3>lightweight</h3></li>
             <li><h3>many different datatypes (<a href="http://redis.io/topics/data-types">ref</a>)</h3></li>
             <li><h3>atomic operations (<a href="http://en.wikipedia.org/wiki/Atomicity_(database_systems)">ref</a>)</h3></li>
-            <li><h3>data expiration time (accurate to the milisecond, <a href="http://redis.io/commands/expire">ref</a>)</h3></li>
+            <li><h3>data expiration time (accurate to the millisecond, <a href="http://redis.io/commands/expire">ref</a>)</h3></li>
         </ul>
     </div>
 </section>
@@ -525,14 +579,15 @@ def online_mean(x):
         <h2><code>zset</code> ~= ordered set</h2>
         <h3>unique list of elements that are SORTED by an integer that YOU CONTROL.</h3>
         <h3>you can easily get the n-most or n-least elements</h3>
-        <h4>(useful for storing distributions)</h4>
+        <h4>(useful for storing distributions and graphs... more on this later)</h4>
     </div>
 </section>
 <section class="slide">
     <div class="vcenter">
         <h2>example:</h2>
         <h3>Let's connect to redis, set key and retrieve it</h3>
-        <pre align=left style="border: none"><code class="python">import redis
+        <pre align=left style="border: none"><code class="python"># examples/02_redis_set.py
+import redis
 import random
 
 db = redis.StrictRedis(db=1)
@@ -541,18 +596,22 @@ db.set("test_value", random.random())
 value = db.get("test_value")
 print "Random number = ", value
 print "Response type = ", type(value)</code></pre>
+        <pre align=left style="border: none"><code class="bash">$ python examples/02_redis_set.py
+Random number =  0.358030987168
+Response type =  &lt;type 'str'&gt;</code></pre>
     </div>
 </section>
 <section class="slide">
     <div class="vcenter">
         <h2>example:</h2>
         <h3>Let's connect to redis, set hash and increase values atomically</h3>
-        <pre align=left style="border: none"><code class="python">import redis
+        <pre align=left style="border: none"><code class="python"># examples/03_redis_hash.py
+import redis
 
 db = redis.StrictRedis(db=1)
 
 db.hset("micha", "friends", 1)
-db.hset("dan", "friends", 9000)
+db.hset("dan", "friends", 9001)
 db.hset("mike", "friends", 24)
 
 for i in range(100):
@@ -561,6 +620,14 @@ for i in range(100):
 print "dan has %s friends" % db.hget("dan", "friends")
 print "mike has %s friends" % db.hget("mike", "friends")
 print "micha has %s friends" % db.hget("micha", "friends")</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <pre align=left style="border: none"><code class="bash">$ python 03_redis_hash.py 
+dan has 9001 friends
+mike has 24 friends
+micha has 1001 friends</code></pre>
     </div>
 </section>
 <section class="slide">
@@ -580,12 +647,6 @@ print "The value is currently %s" % value</code></pre>
 </section>
 <section class="slide">
     <div class="vcenter">
-        <h1>During line (A), another process could change the value!</h1>
-        <h3>Then, when this process saves its results, we've lost what the other process did</h3>
-    </div>
-</section>
-<section class="slide">
-    <div class="vcenter">
         <h3>We start with a value of <code>n=0</code> in the db</h3><br>
         <div style="float: left; position: relative; left: 50%;">
             <div style="float: left; position: relative; left: -50%;">
@@ -595,7 +656,7 @@ print "The value is currently %s" % value</code></pre>
 0  |
 1  | value = db.get("n")
 2  | 
-3  | value += 1
+3  | value += 1 # line (A)
 4  | 
 5  | db.set("n", value)
 6  |
@@ -605,7 +666,7 @@ print "The value is currently %s" % value</code></pre>
 0  |
 1  | value = db.get("n")
 2  | 
-3  | value += 1
+3  | value += 1 # line (A)
 4  |
 5  |
 6  | db.set("n", value)
@@ -615,6 +676,7 @@ print "The value is currently %s" % value</code></pre>
 
         <br clear="all">
         <h3>Now the value is <code>n=1</code> instead of <code>n=2</code>!</h3><br>
+        <h3>this is called a <a href="http://en.wikipedia.org/wiki/Race_condition">race condition</a></h3>
     </div>
 </section>
 <section class="slide">
@@ -661,15 +723,15 @@ print "The value is currently %s" % value</code></pre>
     <div class="vcenter">
         <h2>First, let's check out the data source!</h2>
         <h3><code>http://developer.usa.gov/1usagov</code> is the URL of a pubsub!</h3>
-        <pre align=left>
+        <pre align=left style="border: none"><code class="bash">
 $ curl -s http://developer.usa.gov/1usagov | head -n 1
 { "a": "Mozilla\/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident\/5.0)", "c": "US", "nk": 0, "tz": "America\/Chicago", "gr": "MN", "g": "lyz2Nv", "h": "lyz2Nv", "l": "bitly", "al": "en-US", "hh": "1.usa.gov", "r": "http:\/\/www.usa.gov\/index.shtml", "u": "http:\/\/answers.usa.gov\/system\/selfservice.controller?CONFIGURATION=1000&PARTITION_ID=1&CMD=VIEW_ARTICLE&USERTYPE=1&LANGUAGE=en&COUNTRY=US&ARTICLE_ID=10564", "t": 1346619003, "hc": 1308822087, "cy": "Minneapolis", "ll": [ 44.982300, -93.306297 ] }
-        </pre>
+        </code></pre>
     </div>
 </section>
 <section class="slide">
-    <div class="valign">
-        <pre>{
+    <div class="vcenter">
+        <pre align=left style="border: none"><code class="bash">{
     "a": "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)",
     "c": "US",
     "nk": 0,
@@ -689,7 +751,8 @@ $ curl -s http://developer.usa.gov/1usagov | head -n 1
         44.9823,
         -93.306297
     ]
-}</pre>
+}</code></pre>
+    <h3>INSERT LINK TO FIELD DESCRIPTIONS</h3>
     </div>
 </section>
 <section class="slide">
@@ -699,13 +762,7 @@ $ curl -s http://developer.usa.gov/1usagov | head -n 1
 </section>
 <section class="slide">
     <div class="vcenter">
-        <h1>Let's try making a social graph</h1>
-    </div>
-</section>
-<section class="slide">
-    <div class="vcenter">
-        <h2>What do you mean by graph?</h2>
-        <h3>We will have nodes, representing some piece of data, and connect them together in some meaningful way</h3>
+        <h1>Let's try making a graph</h1>
     </div>
 </section>
 <section class="slide">
@@ -753,23 +810,28 @@ C, Z, 1
 <section class="slide">
     <div class="vcenter">
         <h1>redis zsets!</h1>
+        <h3>(you could also use a hash, but zset make it easier<br>to implement more complex algorithms)</h3>
     </div>
 </section>
 <section class="slide">
     <div>
         <h2>example:</h2>
-        <h3>to store the graph node connections (A, B, 5) and (A, C, 1) we do:</h3>
-        <pre style="border: none;" align=left><code class="python">import redis
+        <h3>to store the DIRECTED graph node connections (A, B, 5) and (A, C, 1) we do:</h3>
+        <pre style="border: none;" align=left><code class="python"># examples/04_redis_zset_graph.py
+import redis
 
 db = redis.StrictRedis(db=1)
+
 db.zadd("A", 5.0, "B")
 db.zadd("A", 1.0, "C")
 
+# get all elements in the set with scores [0, &#8734;)
+# returns a list of tuples in the form: 
+#   [ (property, score), (property, score), ... ]
 node_a = db.zrange("A", 0, -1, withscores=True)
 print "Current graph:"
 for link in node_a:
     print "A, %s, %f" % (link[0], link[1])
-
         </code></pre>
     </div>
 </section>
@@ -783,7 +845,8 @@ for link in node_a:
     <div>
         <h2>Now You!</h2>
         <ul>
-            <li><h5>Create a graph using the 1usagov data! Have referrer URL's (key <code>r</code>)link to target URL (key <code>u</code>) with weight corresponding to the frequency of the event</h5></li>
+            <li><h5>Create a graph using the 1usagov data! Have referrer URL's (key <code>r</code>) link to target URL (key <code>u</code>) with weight corresponding to the frequency of the event</h5></li>
+            <li><h5>extra: How could you easily turn this into an UNDIRECTED graph</h5></li>
             <li><h5>extra: What other cool graphs can you form with the data?</h5></li>
         </ul>
 
@@ -847,7 +910,7 @@ for link in node_a:
 <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 <!-- highlight.js -->
-<script type="text/javascript" src="js/highlight.pack.js"></script>
+<script src="http://yandex.st/highlightjs/7.2/highlight.min.js"></script>
 
 <!-- for the graph... excessive, I know! -->
 <script type="text/javascript" src="d3/d3.v2.js"></script>
