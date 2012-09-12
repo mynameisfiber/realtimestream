@@ -1,18 +1,18 @@
-var width = 960,
-    height = 500;
+var width = parseInt(d3.select('body').style('width'))/2.25,
+    height = parseInt(d3.select('body').style('height'));
 
 var color = d3.scale.category20();
 
 var force = d3.layout.force()
-    .charge(-120)
-    .linkDistance(30)
+    .charge(-100)
+    .linkDistance(80)
     .size([width, height]);
 
-var svg = d3.select("#chart").append("svg")
+var svg = d3.select("#d3_chart").append("svg")
     .attr("width", width)
     .attr("height", height);
 
-d3.json("miserables.json", function(json) {
+d3.json("data/miserables.json", function(json) {
   force
       .nodes(json.nodes)
       .links(json.links)
@@ -28,7 +28,7 @@ d3.json("miserables.json", function(json) {
       .data(json.nodes)
     .enter().append("circle")
       .attr("class", "node")
-      .attr("r", 5)
+      .attr("r", 10)
       .style("fill", function(d) { return color(d.group); })
       .call(force.drag);
 
@@ -45,3 +45,4 @@ d3.json("miserables.json", function(json) {
         .attr("cy", function(d) { return d.y; });
   });
 });
+

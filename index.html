@@ -22,6 +22,8 @@
 	<!-- Style theme. More available in /themes/style/ or create your own. -->
     <!--<link rel="stylesheet" href="themes/style/web-2.0.css">-->
     <link rel="stylesheet" href="deck.js/themes/style/swiss.css">
+
+    <link rel="stylesheet" href="d3/examples/force/force.css">
 	
 	<!-- Transition theme. More available in /themes/transition/ or create your own. -->
 	<link rel="stylesheet" href="deck.js/themes/transition/horizontal-slide.css">
@@ -669,7 +671,83 @@ $ curl -s http://developer.usa.gov/1usagov | head -n 1
     <div class="vcenter">
         <h2>What do you mean by graph?</h2>
         <h3>We will have nodes, representing some piece of data, and connect them together in some meaningful way</h3>
-        <div id="chart"></div>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h1>How do we represent a graph?</h1>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h2>Adjacency list</h2><br>
+        <h3>Node elements are stored in pairs with a weighting between them</h3><br>
+        <h3>The weight represents how "close" the pair are</h3>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <div>
+            <div id="d3_chart" style="float: left"></div>
+            <h4 style="float: left">becomes</h4>
+            <div style="float: left"><pre style="border: none;">
+A, B, 5
+B, T, 9
+J, A, 7
+T, J, 2
+C, Z, 1
+            </pre></div>
+        <h6>(graph shamelessly taken from <a href="https://github.com/mbostock/d3">d3</a>)</h6>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h1>How will we store this?</h1>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h1>redis zsets!</h1>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>example:</h2>
+        <h3>to store the graph node connections (A, B, 5) and (A, C, 1) we do:</h3>
+        <pre style="border: none;" align=left><code class="python">import redis
+
+db = redis.StrictRedis(db=1)
+db.zadd("A", 5.0, "B")
+db.zadd("A", 1.0, "C")
+
+node_a = db.zrange("A", 0, -1, withscores=True)
+print "Current graph:"
+for link in node_a:
+    print "A, %s, %f" % (link[0], link[1])
+
+        </code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h1>we can also do some other cool stuff with zset</h1>
+        <h3>look into <code><a href="http://redis.io/commands/zincrby">zincrby</a></code>, <code><a href="http://redis.io/commands/zrank">zrank</a></code> and <code><a href="http://redis.io/commands/zrangebyscore">zrangebyscore</a></code></h3>
+    </div>
+</section>
+<section class="slide">
+    <div>
+        <h2>Now You!</h2>
+        <ul>
+            <li><h5>Create a graph using the 1usagov data! Have referrer URL's (key <code>r</code>)link to target URL (key <code>u</code>) with weight corresponding to the frequency of the event</h5></li>
+            <li><h5>extra: What other cool graphs can you form with the data?</h5></li>
+        </ul>
+
+        <h2>You'll be done when you:</h2>
+        <ol align=left>
+            <li>Get a sense of how to build graphs in redis and what the limitations are</li>
+            <li>Can think of some interesting analysis to run on the resulting graph and understand how to fetch the data to do so</li>
+            <li>Think: wow, realtime streams really are awesome!</li>
+        </ol>
     </div>
 </section>
 
@@ -727,8 +805,8 @@ $ curl -s http://developer.usa.gov/1usagov | head -n 1
 <script type="text/javascript" src="deck.js/extensions/highlight.js/highlight.pack.js"></script>
 
 <!-- for the graph... excessive, I know! -->
+<script type="text/javascript" src="d3/d3.v2.js"></script>
 <script type="text/javascript" src="js/force.js"></script>
-<script type="text/javascript" src="d3.v2.js"></script>
 
 <!-- Initialize the deck. You can put this in an external file if desired. -->
 <script>
