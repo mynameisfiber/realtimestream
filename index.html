@@ -54,6 +54,15 @@
         <h6>(those are links!)</h6>
     </div>
 </section>
+<section class="slide">
+    <div class="vcenter">
+        <h1>Outline</h1>
+        <h2>Infrastructure</h2>
+        <h2>Python + SimpleQueue</h2>
+        <h2>Redis</h2>
+        <h2>Putting it all together!</h2>
+    </div>
+</section>
 
 <section class="slide">
 	<h1>Why streams?</h1>
@@ -62,7 +71,7 @@
 	<h1>THERE IS A LOT OF DATA!</h1>
 </section>
 <section class="slide">
-    <h1>Streams move fast, we need some infrastructure to support it</h1>
+    <h1>Streams move fast, we need some infrastructure to support them</h1>
 </section>
 <section class="slide">
 	<h1>enter: SimpleHttp</h1>
@@ -92,7 +101,7 @@
 </section>
 <section class="slide">
     <div class="vcenter">
-        <img height=100% src="deck.js/images/basic_pubsub_themed.png">
+        <img height=100% src="images/basic_pubsub_themed.png">
         <div class="slide">Data comes in from our data sources and the pubsub <strong>pub</strong>lishes the data to all of the <strong>sub</strong>scribers</div>
     </div>
 </section>
@@ -104,7 +113,7 @@
 </section>
 <section class="slide">
     <div class="vcenter">
-        <img src="deck.js/images/BombCat.jpg">
+        <img src="images/BombCat.jpg">
         <div class="slide">The processors will timeout and miss messages from the pubsub</div>
     </div>
 </section>
@@ -127,7 +136,7 @@
 </section>
 <section class="slide">
     <div class="vcenter">
-        <img width=100% src="deck.js/images/queued_pubsub.png">
+        <img width=100% src="images/queued_pubsub.png">
     </div>
 </section>
 <section class="slide">
@@ -137,7 +146,7 @@
     <h2><code>pubsub</code></h2>
     <ul>
         <li>simple HTTP interface to a pubsub</li>
-        <li><code>/pub</code> to publish a message, <code>/sub</code> to suscribe</li>
+        <li><code>/pub</code> to publish a message, <code>/sub</code> to subscribe</li>
     </ul>
     <h2><code>ps_to_http</code></h2>
     <ul>
@@ -246,9 +255,9 @@ overflow:0</code>
 </section>
 <section class="slide">
     <div class="vcenter">
-        <h2>pysimplehttp.BaseReader ~= translator</h2>
-        <h3>abstracts the low level simplehttp protocol into something more useful</h3>
-        <h3>you simply define tasks on data and the BaseReader will perform all tasks on all data in the simplequeue!</h3>
+        <h2>pysimplehttp.BaseReader ~= translator</h2><br>
+        <h3>translates the low level simplehttp protocol into something more useful</h3><br>
+        <h3>you simply define tasks on data and the BaseReader will perform all tasks on all data in the simplequeue!</h3><br>
         <h3>NOTE: BaseReader operates on JSON blobs</h3>
     </div>
 </section>
@@ -296,7 +305,7 @@ Published 1 messages to 1 clients.
     <div>
         <h2>Now You!</h2>
         <ul>
-            <li><h5>Connect to a simplequeue that outputs random numbers, \( x \in [0,1) \), using BatchReader.</h5></li>
+            <li><h5>Connect to a simplequeue that outputs random numbers, \( x \in [0,1) \), using BaseReader.</h5></li>
             <li><h5>Fail on a message every once in a while... what happens to it?</h5></li>
             <li><h5>See what happens when multiple readers connect</h5></li>
             <li><h5>Extra: With <code>preprocess_method</code>, only accept numbers in (0.5, 1.0).</h5></li>
@@ -401,7 +410,7 @@ def online_mean(x):
 <section class="slide">
     <div class="vcenter">
         <h2>Critical question: will it <strike>blend</strike> converge?</h2>
-        <h4>Online algorithms are generally more prone to numerical error that can yield incorrect answers!</h4>
+        <h4>Online algorithms are generally more prone to numerical error, which can yield incorrect answers!</h4>
         <h6>(luckily, this one is quite stable!)</h6>
     </div>
 </section>
@@ -440,18 +449,184 @@ def online_mean(x):
 </section>
 
 <section class="slide">
+    <h1>Now I can do everything... right?</h1>
+</section>
+<section class="slide">
+    <h1>...almost.</h1>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h1>What happens if:</h1>
+        <h3>The algorithm is very complex and you need to have multiple boxes with multiple readers working on it?</h3>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h1>We need to share data between readers!</h1>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h1>enter: redis</h1>
+        <h3>the great dictionary in the sky</h3>
+    </div>
+</section>
+<section class="slide">
+        <img src="images/touched-by-his-noodly-appendage.jpg" height=100%>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h2>about redis:</h2>
+        <ul align="left">
+            <li><h3>in memory, network accessible dictionary</h3></li>
+            <li><h3>lightweight</h3></li>
+            <li><h3>many different datatypes (<a href="http://redis.io/topics/data-types">ref</a>)</h3></li>
+            <li><h3>atomic operations (<a href="http://en.wikipedia.org/wiki/Atomicity_(database_systems)">ref</a>)</h3></li>
+            <li><h3>data expiration time (accurate to the milisecond, <a href="http://redis.io/commands/expire">ref</a>)</h3></li>
+        </ul>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+    <img src="images/redis_diagram.png" height=90%>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h1>quick over view of <strike>my favorite</strike> important data structures in redis</h1>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h2><code>set</code> ~= python set</h2>
+        <h3>unique list of elements with FAST add/remove/contains</h3>
+        <h4>(useful for unique-ifying a set over multiple data processors)</h4>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h2><code>hashes</code> ~= python dict</h2>
+        <h3>low overhead and fast element retrieval</h3>
+        <h4>(useful for storing object properties over multiple data processors)</h4>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h2><code>zset</code> ~= ordered set</h2>
+        <h3>unique list of elements that are SORTED by an integer that YOU CONTROL.</h3>
+        <h3>you can easily get the n-most or n-least elements</h3>
+        <h4>(useful for storing distributions)</h4>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h2>example:</h2>
+        <h3>Let's connect to redis, set key and retrieve it</h3>
+        <pre align=left style="border: none"><code class="python">import redis
+import random
+
+db = redis.StrictRedis(db=1)
+db.set("test_value", random.random())
+
+value = db.get("test_value")
+print "Random number = ", value
+print "Response type = ", type(value)</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h2>example:</h2>
+        <h3>Let's connect to redis, set hash and increase values atomically</h3>
+        <pre align=left style="border: none"><code class="python">import redis
+
+db = redis.StrictRedis(db=1)
+
+db.hset("micha", "friends", 1)
+db.hset("dan", "friends", 9000)
+db.hset("mike", "friends", 24)
+
+for i in range(100):
+    db.hincrby("micha", "friends", 10)
+    
+print "dan has %s friends" % db.hget("dan", "friends")
+print "mike has %s friends" % db.hget("mike", "friends")
+print "micha has %s friends" % db.hget("micha", "friends")</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h2>aside: atomic-ity</h2>
+        <h3>What happens if I update a value in redis like this with multiple processes?</h3>
+        <pre align=left style="border: none"><code class="python">import redis
+
+db = redis.StrictRedis(db=1)
+
+value = db.get("important_number")
+value += 1  # line (A)
+db.set("important_number", value)
+
+print "The value is currently %s" % value</code></pre>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h1>During line (A), another process could change the value!</h1>
+        <h3>Then, when this process saves its results, we've lost what the other process did</h3>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h1>atomic operations FTW!</h1>
+        <h5>Read more <a href="http://en.wikipedia.org/wiki/Atomic_operation">here</a> and definitely look at the *incrby operations in redis</h5>
+        <img src="images/atomic_meme.jpg" height=200px>
+    </div>
+</section>
+
+<section class="slide">
+    <div>
+        <h2>Now You!</h2>
+        <ul>
+            <li><h5>Create a queuereader that reads random integers from different distributions and stores a histogram of them.</h5></li>
+            <li><h5>Have multiple queuereaders connect to the same stream and the same redis DB</h5></li>
+            <li><h5>extra: Make the mean/var algorithm work with redis.  How will you keep the readers from clobbering each others data? (hint: atomic <a href="http://redis.io/topics/transactions">transactions</a>)
+        </ul>
+
+        <h2>You'll be done when you:</h2>
+        <ol align=left>
+            <li>You have a sense of which datatype to use for which problem</li>
+            <li>You understand the data-flow with multiple queuereaders</li>
+            <li>Extra: understand transactions and atomicity of a redis db</li>
+            <li>Extra: understand the benefits of a connection pipeline</li>
+        </ol>
+    </div>
+</section>
+
+<section class="slide">
+    <h1>So... after this I can only deal with random numbers?</h1>
+</section>
+<section class="slide">
+    <h1>data can be any json blob</h1>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h1>Let's do something interesting!</h1>
+        <h3>1usagov data source of clicks on usa.gov links through bitly</h3>
+    </div>
+</section>
+
+<section class="slide">
     <div class="vcenter">
         <h2>First, let's check out the data source!</h2>
+        <h3><code>http://developer.usa.gov/1usagov</code> is the URL of a pubsub!</h3>
         <pre align=left>
-$ curl -s http://developer.usa.gov/1usagov | head
+$ curl -s http://developer.usa.gov/1usagov | head -n 1
 { "a": "Mozilla\/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident\/5.0)", "c": "US", "nk": 0, "tz": "America\/Chicago", "gr": "MN", "g": "lyz2Nv", "h": "lyz2Nv", "l": "bitly", "al": "en-US", "hh": "1.usa.gov", "r": "http:\/\/www.usa.gov\/index.shtml", "u": "http:\/\/answers.usa.gov\/system\/selfservice.controller?CONFIGURATION=1000&PARTITION_ID=1&CMD=VIEW_ARTICLE&USERTYPE=1&LANGUAGE=en&COUNTRY=US&ARTICLE_ID=10564", "t": 1346619003, "hc": 1308822087, "cy": "Minneapolis", "ll": [ 44.982300, -93.306297 ] }
-{ "a": "Mozilla\/5.0 (Windows NT 5.1; rv:16.0) Gecko\/20100101 Firefox\/16.0", "c": "AL", "nk": 0, "tz": "Europe\/Tirane", "gr": "50", "g": "lsXHeB", "h": "PUqRZD", "l": "o_7vnmt0sji3", "al": "en-US,en;q=0.5", "hh": "1.usa.gov", "r": "http:\/\/www.cssmania.com\/page\/2\/", "u": "http:\/\/utah.gov\/index.html", "t": 1346619016, "hc": 1346055424, "cy": "Tirana", "ll": [ 41.327499, 19.818899 ] }
         </pre>
     </div>
 </section>
 <section class="slide">
-    <pre>
-{
+    <div class="valign">
+        <pre>{
     "a": "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)",
     "c": "US",
     "nk": 0,
@@ -471,8 +646,31 @@ $ curl -s http://developer.usa.gov/1usagov | head
         44.9823,
         -93.306297
     ]
-}
-    </pre>
+}</pre>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h1>So much possibility!</h1>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h1>Let's try making a social graph</h1>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h2>What do you mean by graph?</h2>
+        <h3>We will have nodes, representing some piece of data, and connect them together in some meaningful way</h3>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h2>What do you mean by graph?</h2>
+        <h3>We will have nodes, representing some piece of data, and connect them together in some meaningful way</h3>
+        <div id="chart"></div>
+    </div>
 </section>
 
 <section class="slide">
@@ -527,6 +725,10 @@ $ curl -s http://developer.usa.gov/1usagov | head
 
 <!-- highlight.js -->
 <script type="text/javascript" src="deck.js/extensions/highlight.js/highlight.pack.js"></script>
+
+<!-- for the graph... excessive, I know! -->
+<script type="text/javascript" src="js/force.js"></script>
+<script type="text/javascript" src="d3.v2.js"></script>
 
 <!-- Initialize the deck. You can put this in an external file if desired. -->
 <script>
