@@ -1,18 +1,18 @@
-var width = parseInt(d3.select('body').style('width'))/2.25,
-    height = parseInt(d3.select('body').style('height'));
+var width = parseInt(d3.select('body').style('width'))/4,
+    height = parseInt(d3.select('body').style('height'))/2.;
 
 var color = d3.scale.category20();
 
 var force = d3.layout.force()
-    .charge(-100)
-    .linkDistance(80)
+    .charge(-120)
+    .linkDistance(30)
     .size([width, height]);
 
 var svg = d3.select("#d3_chart").append("svg")
     .attr("width", width)
     .attr("height", height);
 
-d3.json("data/miserables.json", function(json) {
+d3.json("data/force.json", function(json) {
   force
       .nodes(json.nodes)
       .links(json.links)

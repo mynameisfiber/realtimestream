@@ -1,3 +1,6 @@
 [submodule "d3"]
 	path = d3
 	url = git://github.com/mbostock/d3.git
+[submodule "deck.js"]
+	path = deck.js
+	url = git://github.com/imakewebthings/deck.js.git

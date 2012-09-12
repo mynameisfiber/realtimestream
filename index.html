@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=1024, user-scalable=no">
 
 	<title>Realtime Stream Processing</title>
-	
+
 	<!-- Required stylesheet -->
 	<link rel="stylesheet" href="deck.js/core/deck.core.css">
     <link rel="stylesheet" href="css/solarized_dark.css">
@@ -23,6 +23,7 @@
     <!--<link rel="stylesheet" href="themes/style/web-2.0.css">-->
     <link rel="stylesheet" href="deck.js/themes/style/swiss.css">
 
+    <!--d3 graph stylesheet-->
     <link rel="stylesheet" href="d3/examples/force/force.css">
 	
 	<!-- Transition theme. More available in /themes/transition/ or create your own. -->
@@ -73,6 +74,12 @@
 	<h1>THERE IS A LOT OF DATA!</h1>
 </section>
 <section class="slide">
+    <div class="vcenter">
+        <h1>We want results NOW</h1>
+        <h3>not when hadoop can get around to it</h3>
+    </div>
+</section>
+<section class="slide">
     <h1>Streams move fast, we need some infrastructure to support them</h1>
 </section>
 <section class="slide">
@@ -93,7 +100,7 @@
     <h3 align=center>We will focus on PUBSUBS and QUEUES</h3>
 </section>
 <section class="slide">
-    <h1>WTF is a <strike>plurbsurb</strike> pubsub?</h1>
+    <h1>WTF is a <del style="background: url(images/strike.png) repeat-x 0% 57%">plurbsurb</del> pubsub?</h1>
 </section>
 <section class="slide">
     <div class="vcenter">
@@ -104,7 +111,7 @@
 <section class="slide">
     <div class="vcenter">
         <img height=100% src="images/basic_pubsub_themed.png">
-        <div class="slide">Data comes in from our data sources and the pubsub <strong>pub</strong>lishes the data to all of the <strong>sub</strong>scribers</div>
+        <div>Data comes in from our data sources and the pubsub <strong>pub</strong>lishes the data to all of the <strong>sub</strong>scribers</div>
     </div>
 </section>
 <section class="slide">
@@ -116,7 +123,7 @@
 <section class="slide">
     <div class="vcenter">
         <img src="images/BombCat.jpg">
-        <div class="slide">The processors will timeout and miss messages from the pubsub</div>
+        <div>The processors will timeout and miss messages from the pubsub</div>
     </div>
 </section>
 <section class="slide">
@@ -234,6 +241,7 @@ overflow:0</code>
         <h2>Now You!</h2>
         <ul>
             <li><h5>Create a pubsub/simplequeue chain, add data to it and retrieve it.</h5></li>
+            <li><h5>What happens if you have multiple things reading from the queue? Who gets what data?</h5></li>
         </ul>
 
         <h2>You'll be done when you:</h2>
@@ -411,7 +419,7 @@ def online_mean(x):
 </section>
 <section class="slide">
     <div class="vcenter">
-        <h2>Critical question: will it <strike>blend</strike> converge?</h2>
+        <h1>Critical question: will it <del style="background: url(images/strike.png) repeat-x 0% 57%">blend</del> converge?</h1>
         <h4>Online algorithms are generally more prone to numerical error, which can yield incorrect answers!</h4>
         <h6>(luckily, this one is quite stable!)</h6>
     </div>
@@ -495,7 +503,7 @@ def online_mean(x):
 </section>
 <section class="slide">
     <div class="vcenter">
-        <h1>quick over view of <strike>my favorite</strike> important data structures in redis</h1>
+        <h1>quick over view of <del style="background: url(images/strike.png) repeat-x 0% 57%">my favorite</del> important data structures in redis</h1>
     </div>
 </section>
 <section class="slide">
@@ -574,6 +582,39 @@ print "The value is currently %s" % value</code></pre>
     <div class="vcenter">
         <h1>During line (A), another process could change the value!</h1>
         <h3>Then, when this process saves its results, we've lost what the other process did</h3>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <h3>We start with a value of <code>n=0</code> in the db</h3><br>
+        <div style="float: left; position: relative; left: 50%;">
+            <div style="float: left; position: relative; left: -50%;">
+                <div style="float:left">
+                    <pre align=left>t  | Process 1 (Mr. T)
+------------------------
+0  |
+1  | value = db.get("n")
+2  | 
+3  | value += 1
+4  | 
+5  | db.set("n", value)
+6  |
+</pre></div>
+        <div style="float:left;"><pre align=left>t  | Process 2 (Bozo)
+------------------------
+0  |
+1  | value = db.get("n")
+2  | 
+3  | value += 1
+4  |
+5  |
+6  | db.set("n", value)
+</pre></div>
+            </div>
+        </div>
+
+        <br clear="all">
+        <h3>Now the value is <code>n=1</code> instead of <code>n=2</code>!</h3><br>
     </div>
 </section>
 <section class="slide">
@@ -687,17 +728,21 @@ $ curl -s http://developer.usa.gov/1usagov | head -n 1
 </section>
 <section class="slide">
     <div class="vcenter">
-        <div>
-            <div id="d3_chart" style="float: left"></div>
-            <h4 style="float: left">becomes</h4>
-            <div style="float: left"><pre style="border: none;">
+        <div style="float: left; position: relative; left: 50%;">
+            <div style="float: left; position: relative; left: -50%;">
+                <div id="d3_chart" style="float: left; "></div>
+                <h4 style="float: left; margin-top: 15%; height: 100%">becomes</h4>
+                <div style="float: left; margin-top: 10%; height: 100%"><pre style="border: none;">
 A, B, 5
 B, T, 9
 J, A, 7
 T, J, 2
 C, Z, 1
-            </pre></div>
-        <h6>(graph shamelessly taken from <a href="https://github.com/mbostock/d3">d3</a>)</h6>
+                </pre></div>
+            </div>
+        </div>
+        <br clear="all">
+        <h6 style="clear: both">(graph shamelessly taken from <a href="https://github.com/mbostock/d3">d3</a>)</h6>
     </div>
 </section>
 <section class="slide">

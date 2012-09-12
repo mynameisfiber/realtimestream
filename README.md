@@ -11,7 +11,7 @@ You will need to have the following installed:
   * [Python 2.7](http://python.org/)
       * [tornado](http://pypi.python.org/pypi/tornado/2.4)
       * [numpy](http://pypi.python.org/pypi/numpy/1.6.2)
-      * [pysimplehttp >=0.2.0](http://pypi.python.org/pypi/pysimplehttp/0.2.0)
+      * [pysimplehttp >=0.2.1](http://pypi.python.org/pypi/pysimplehttp/0.2.1)
       * [host_pool](http://pypi.python.org/pypi/host_pool/0.2)
   * [simplehttp](https://github.com/bitly/simplehttp)
   * [redis](http://redis.io/)
@@ -34,8 +34,8 @@ The easiest way to install the required programs is to first install [homebrew](
   5. `rm "brew_formulas.0.2.tar.gz"`
   6. `brew install simplequeue pubsub ps_to_http redis python`
   7. `brew test simplequeue pubsub`
-  8. `pip install numpy "pysimplehttp>=0.2.0" redis ujson host_pool` (you may want to consider using `virtualenv`)
-    * Note: If you get an error installing ujson, don't sweat it.  Nothing depends on it, but it is a really great and fast alternative to json/simplejson.  Simply run `sudo pip "pysimplehttp>=0.2.0" redis host_pool`
+  8. `pip install numpy "pysimplehttp>=0.2.1" redis ujson host_pool` (you may want to consider using `virtualenv`)
+    * Note: If you get an error installing ujson, don't sweat it.  Nothing depends on it, but it is a really great and fast alternative to json/simplejson.  Simply run `sudo pip "pysimplehttp>=0.2.1" redis host_pool`
 
 ## Ubuntu guide ##
 
@@ -43,8 +43,8 @@ To get started in ubuntu, we first use `aptitude` to get dependencies, and then 
 
   1. `sudo apt-get install make gcc libevent1-dev libcurl4-openssl-dev redis-server`
   2. `sudo apt-get install ipython python-pip python-redis python-numpy git`
-  3. `sudo pip install "pysimplehttp>=0.2.0" ujson host_pool`
-    * Note: If you get an error installing ujson, don't sweat it.  Nothing depends on it, but it is a really great and fast alternative to json/simplejson.  Simply run `sudo pip install "pysimplehttp>=0.2.0" host_pool`
+  3. `sudo pip install "pysimplehttp>=0.2.1" ujson host_pool`
+    * Note: If you get an error installing ujson, don't sweat it.  Nothing depends on it, but it is a really great and fast alternative to json/simplejson.  Simply run `sudo pip install "pysimplehttp>=0.2.1" host_pool`
   4. `git clone https://github.com/bitly/simplehttp.git`
   5. `cd simplehttp/simplehttp`
   6. `make ; sudo make install`
