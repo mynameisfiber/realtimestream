@@ -5,7 +5,7 @@ var color = d3.scale.category20();
 
 var force = d3.layout.force()
     .charge(-120)
-    .linkDistance(30)
+    .linkDistance(80)
     .size([width, height]);
 
 var svg = d3.select("#d3_chart").append("svg")
@@ -22,7 +22,8 @@ d3.json("data/force.json", function(json) {
       .data(json.links)
     .enter().append("line")
       .attr("class", "link")
-      .style("stroke-width", function(d) { return Math.sqrt(d.value); });
+      .style("stroke-width", function(d) { return d.value; })
+      .style("stroke", function(d) { return color(d.value); });
 
   var node = svg.selectAll("circle.node")
       .data(json.nodes)
@@ -32,7 +33,7 @@ d3.json("data/force.json", function(json) {
       .style("fill", function(d) { return color(d.group); })
       .call(force.drag);
 
-  node.append("title")
+  node.append("text")
       .text(function(d) { return d.name; });
 
   force.on("tick", function() {

@@ -201,6 +201,11 @@
         </ul>
     </div>
 </section>
+<section class="slide">
+    <div class="vcenter">
+        <img src="images/queued_pubsub_with_tools.png" width=100%>
+    </div>
+</section>
 
 <section class="slide">
     <h2>Start the pubsub</h2>
@@ -321,6 +326,11 @@ overflow:0</code>
         <h3>translates the low level simplehttp protocol into something more useful</h3><br>
         <h3>you simply define tasks on data and the BaseReader will perform all tasks on all data in the simplequeue!</h3><br>
         <h3>NOTE: BaseReader operates on JSON blobs</h3>
+    </div>
+</section>
+<section class="slide">
+    <div class="vcenter">
+        <img src="images/queued_pubsub_with_python.png" width=100%>
     </div>
 </section>
 <section class="slide">
@@ -459,11 +469,18 @@ Next:
         <ul>
             <li>define: \( x_n = \) observation @ time n
             <li>mean = \( \bar{x}_n = \bar{x}_{n-1} + \frac{x_n - \bar{x}_{n-1}}{n} \)</li>
-            <li>aux variable = \( M_n = M_{n-1} + \left( x_n - \bar{x}_n \right)^2 \)</li>
-            <li>sample variance = \( \frac{M_n}{n-1} \)</li>
-            <li>population variance = \( \frac{M_n}{n} \)</li>
+            <li>aux variable = \( M_{2,n} = M_{2,n-1} + \left( x_n - \bar{x}_n \right)^2 \)</li>
+            <li>sample variance = \( \frac{M_{2,n}}{n-1} \)</li>
+            <li>population variance = \( \frac{M_{2,n}}{n} \)</li>
         </ul>
     <h5>note: this algorithm can even be used in parallel over multiple data consumers!</h5>
+        <h2>What is this \( M_{2,n} \) variable?</h2>
+        <ul>
+            <li>Sum of the powers of the difference from the mean, related to central moments</li>
+            <li>\( M_{k,n} = \sum \left( x_n - \bar{x}_n \right)^k \)</li>
+            <li>Higher order M's can be used to calculate higher order moments of your distribution</li>
+            <li>ie: To get kurtosis, calculate: \( \{ M_{2,n}, M_{3,n}, M_{4,n} \} \)</li>
+        </ul>
     </div>
 </section>
 <section class="slide">
@@ -578,7 +595,7 @@ Next:
 <section class="slide">
     <div class="vcenter">
         <h2><code>zset</code> ~= ordered set</h2>
-        <h3>unique list of elements that are SORTED by an integer that YOU CONTROL.</h3>
+        <h3>sorted set where every element has a numerical score (float)</h3>
         <h3>you can easily get the n-most or n-least elements</h3>
         <h4>(useful for storing distributions and graphs... more on this later)</h4>
     </div>
@@ -597,6 +614,7 @@ db.set("test_value", random.random())
 value = db.get("test_value")
 print "Random number = ", value
 print "Response type = ", type(value)</code></pre>
+        <hr>
         <pre align=left style="border: none"><code class="bash">$ python examples/02_redis_set.py
 Random number =  0.358030987168
 Response type =  &lt;type 'str'&gt;</code></pre>
@@ -753,7 +771,7 @@ $ curl -s http://developer.usa.gov/1usagov | head -n 1
         -93.306297
     ]
 }</code></pre>
-    <h3>INSERT LINK TO FIELD DESCRIPTIONS</h3>
+    <h3>Go <a href="http://github.com/mynameisfiber/realtimestream/blob/gh-pages/1usagov_reference.md">here</a> for field descriptions</h3>
     </div>
 </section>
 <section class="slide">
@@ -792,10 +810,10 @@ $ curl -s http://developer.usa.gov/1usagov | head -n 1
                 <h4 style="float: left; margin-top: 15%; height: 100%">becomes</h4>
                 <div style="float: left; margin-top: 10%; height: 100%"><pre style="border: none;">
 A, B, 5
-B, T, 9
-J, A, 7
-T, J, 2
-C, Z, 1
+A, C, 4
+A, D, 9
+C, D, 7
+D, E, 9
                 </pre></div>
             </div>
         </div>
@@ -834,6 +852,10 @@ print "Current graph:"
 for link in node_a:
     print "A, %s, %f" % (link[0], link[1])
         </code></pre>
+        <hr>
+        <pre style="border: none;" align=left><code class="bash">$ python examples/04_redis_zset_graph.py
+A, C, 1.000000
+A, B, 5.000000</code></pre>
     </div>
 </section>
 <section class="slide">

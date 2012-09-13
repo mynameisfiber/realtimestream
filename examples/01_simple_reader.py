@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from pysimplehttp.BaseReader import BaseReader
 
 def print_message(data):

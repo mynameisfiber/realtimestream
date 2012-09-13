@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import redis
 
 db = redis.StrictRedis(db=1)
