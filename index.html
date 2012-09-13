@@ -65,9 +65,9 @@
         <ul>
             <li><h4>Infrastructure + SimpleHTTP</h3>
             <li><h4>Python + pySimpleHTTP</h3>
-            <li><h4>break!</h3>
             <li><h4>Redis + Redis</h3>
             <li><h4>Graphs + Awesome</h3>
+            <li><h6>(there will be a 15min break ~115min in, checkout the <a href="https://github.com/mynameisfiber/realtimestream/blob/gh-pages/schedule.md">schedule</a>)</h6></li>
         </ul>
 
         <h2>Note:</h2>
@@ -298,6 +298,7 @@ overflow:0</code>
         <ul>
             <li><h5>Create a pubsub/simplequeue chain, add data to it and retrieve it.</h5></li>
             <li><h5>What happens if you have multiple things reading from the queue? Who gets what data?</h5></li>
+            <li><h5>Try using <a href="https://github.com/mynameisfiber/realtimestream/blob/gh-pages/scripts/count_to_pubsub.sh">scripts/count_to_pubsub.sh</a> to help play around with data-flow</h5></li>
             <li><h5>15min</h5></li>
         </ul>
 
@@ -389,7 +390,7 @@ $ python examples/01_simple_reader.py
     <div>
         <h2>Now You!</h2>
         <ul>
-            <li><h5>Connect to a simplequeue that outputs random numbers, \( x \in [0,1) \), using BaseReader.</h5></li>
+            <li><h5>Connect to a simplequeue that outputs random numbers, \( x \in [0,1) \), using BaseReader. (checkout <a href="https://github.com/mynameisfiber/realtimestream/blob/gh-pages/scripts/random_to_pubsub.py">scripts/random_to_pubsub.py</a>)</h5></li>
             <li><h5>Fail on a message every once in a while... what happens to it?</h5></li>
             <li><h5>See what happens when multiple readers connect</h5></li>
             <li><h5>Extra: With <code>preprocess_method</code>, only accept numbers in (0.5, 1.0).</h5></li>
@@ -884,6 +885,7 @@ A, B, 5.000000</code></pre>
             <li>Can think of some interesting analysis to run on the resulting graph and understand how to fetch the data to do so</li>
             <li>Think: wow, realtime streams really are awesome!</li>
         </ol>
+        <h3>Bonus: try <a href="https://github.com/mynameisfiber/realtimestream/blob/gh-pages/scripts/redis_graph_to_networkx.py">scripts/redis_graph_to_networkx.py</a> to visualize your graph!</h3>
     </div>
 </section>
 

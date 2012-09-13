@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+#
+# From the Realtime Data Science tutorial at PyGotham
+# Micha Gorelick, micha@bit.ly, 2012... copyleft
+# https://github.com/mynameisfiber/realtimestream/
+#
 
 pubsub="$1"
 

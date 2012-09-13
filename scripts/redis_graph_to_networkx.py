@@ -1,4 +1,10 @@
 #!/usr/bin/env python
+#
+# From the Realtime Data Science tutorial at PyGotham
+# Micha Gorelick, micha@bit.ly, 2012... copyleft
+# https://github.com/mynameisfiber/realtimestream/
+#
+
 import networkx as nx
 import pylab
 import redis
@@ -14,7 +20,12 @@ if __name__ == "__main__":
     G = nx.DiGraph()
     keys = db.keys()
     for key in keys:
-        node = db.zrange("A", 0, -1, withscores=True)
+        try:
+            node = db.zrange(key, 0, -1, withscores=True)
+        except redis.ResponseError:
+            print "Key %s is not a zset... skipping" % key
+            continue
+
         for link in node:
             print "%s, %s, %f" % (key, link[0], link[1])
             G.add_edge(key, link[0], weight=link[1])
