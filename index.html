@@ -298,6 +298,7 @@ overflow:0</code>
         <ul>
             <li><h5>Create a pubsub/simplequeue chain, add data to it and retrieve it.</h5></li>
             <li><h5>What happens if you have multiple things reading from the queue? Who gets what data?</h5></li>
+            <li><h5>15min</h5></li>
         </ul>
 
         <h2>You'll be done when you:</h2>
@@ -393,6 +394,7 @@ $ python examples/01_simple_reader.py
             <li><h5>See what happens when multiple readers connect</h5></li>
             <li><h5>Extra: With <code>preprocess_method</code>, only accept numbers in (0.5, 1.0).</h5></li>
             <li><h5>Extra: With <code>validate_method</code>, only consume 25% of the stream.</h5></li>
+            <li><h5>15min</h5></li>
         </ul>
 
         <h2>You'll be done when you:</h2>
@@ -519,6 +521,7 @@ Next:
             <li><h5>Connect to a simplequeue of normally distributed random numbers and calculate the mean/variance of the numbers (output the result ever N samples)</h5></li>
             <li><h5>Try changing the actual mean/variance of the generated numbers... how does the algorithm perform?</h5></li>
             <li><h5>What happens when you try drawing random numbers from other distributions? (<a href="http://docs.scipy.org/doc/numpy/reference/routines.random.html">numpy.random</a>)</h5></li>
+            <li><h5>30min</h5></li>
         </ul>
 
         <h2>You'll be done when you:</h2>
@@ -713,6 +716,7 @@ print "The value is currently %s" % value</code></pre>
             <li><h5>Create a queuereader that reads random integers from different distributions and stores a histogram of them.</h5></li>
             <li><h5>Have multiple queuereaders connect to the same stream and the same redis DB</h5></li>
             <li><h5>extra: Make the mean/var algorithm work with redis.  How will you keep the readers from clobbering each others data? (hint: atomic <a href="http://redis.io/topics/transactions">transactions</a>)
+            <li><h5>20min</h5></li>
         </ul>
 
         <h2>You'll be done when you:</h2>
@@ -871,6 +875,7 @@ A, B, 5.000000</code></pre>
             <li><h5>Create a graph using the 1usagov data! Have referrer URL's (key <code>r</code>) link to target URL (key <code>u</code>) with weight corresponding to the frequency of the event</h5></li>
             <li><h5>extra: How could you easily turn this into an UNDIRECTED graph</h5></li>
             <li><h5>extra: What other cool graphs can you form with the data?</h5></li>
+            <li><h5>40min</h5></li>
         </ul>
 
         <h2>You'll be done when you:</h2>

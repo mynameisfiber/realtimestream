@@ -24,15 +24,15 @@ start time | description
 100 min    | section 4
            |     talk: 5min
            |     exercise: 15min
-           |     total: 25min
+           |     total: 20min
 --------------------------------
-125 min    | section 5
+120 min    | section 5
            |     talk: 5min
            |     exercise: 40min
            |     total: 45min
 --------------------------------
-170 min    | END
+165 min    | END
 --------------------------------
 ```
 
-NOTE: 10 minutes aren't scheduled because things always run longer than you think!
+NOTE: 15 minutes aren't scheduled because things always run longer than you think!
