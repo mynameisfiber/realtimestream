@@ -143,7 +143,7 @@
 <section class="slide">
     <div class="vcenter">
         <img src="images/BombCat.jpg">
-        <div>The processors will timeout and miss messages from the pubsub</div>
+        <h4>The kernel cache will fill up, the connection will timeout and when we finally can reconnect will will have lost messages! (ie: things go bad)</h4>
     </div>
 </section>
 <section class="slide">
@@ -166,6 +166,7 @@
 <section class="slide">
     <div class="vcenter">
         <img width=100% src="images/queued_pubsub.png">
+        <h4>If a processor is VERY slow, the queue will be<br>storing many messages (and using a lot of ram)</h4>
     </div>
 </section>
 <section class="slide">
