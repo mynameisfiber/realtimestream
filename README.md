@@ -57,13 +57,12 @@ To get started in ubuntu, we first use `aptitude` to get dependencies, and then 
 
 We currently do not support windows.  If you have any success installing the required programs in windows, please tell us so we can update this section!  For the python requirements, [`pip`](http://pypi.python.org/pypi/pip) and [`enthought`](http://www.enthought.com/) will be useful.
 
-### A note from enthought ###
-
-Enthought, a firm that specializes in scientific applications using Python, is offering a one-year subscription to its Enthought Python Distribution (EPD) to tutorial attendees. For those unfamiliar with Python, EPD makes it simple to set up a complete Python environment. EPD offers a comprehensive array of libraries that include machine learning, statistical, and various data manipulation packages. Subscribers also have access to Enthought’s private repository and package management tools, as well as a series of instructional webinars on various data analysis topics. EPD works just like a standard python environment, so you can still use pip and easy_install as you normally would.
-If you’d like a free one-year subscription to the EPD: 
-
-1. Register for an Enthought account. 
-
-2. Email datagotham@enthought.com and let us know you've registered as part of Datagotham. We will then activate your subscription and email further instructions.
-
-Have fun at the tutorials!
+## A note from enthought: ##
+    Enthought, a firm that specializes in scientific applications using Python, is offering a one-year subscription to its Enthought Python Distribution (EPD) to tutorial attendees. For those unfamiliar with Python, EPD makes it simple to set up a complete Python environment. EPD offers a comprehensive array of libraries that include machine learning, statistical, and various data manipulation packages. Subscribers also have access to Enthought’s private repository and package management tools, as well as a series of instructional webinars on various data analysis topics. EPD works just like a standard python environment, so you can still use pip and easy_install as you normally would.
+    If you’d like a free one-year subscription to the EPD: 
+    
+    1. Register for an Enthought account. 
+    
+    2. Email datagotham@enthought.com and let us know you've registered as part of Datagotham. We will then activate your subscription and email further instructions.
+    
+    Have fun at the tutorials!
