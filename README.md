@@ -52,6 +52,10 @@ To get started in ubuntu, we first use `aptitude` to get dependencies, and then 
   8. `make ; sudo make install`
   9. `cd ../simplequeue`
   10. `make ; sudo make install`
+  11. `cd ../pubsubclient`
+  12. `make ; sudo make install`
+  13. `cd ../ps_to_http`
+  14. `make ; sudo make install`
 
 ## Windows guide ##
 

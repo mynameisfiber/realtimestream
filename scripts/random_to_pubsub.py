@@ -12,7 +12,7 @@ import math
 import time
 
 if __name__ == "__main__":
-    tornado.options.define("pubsub_url", type=str, multiple=True, default=None, help="(multiple) url(s) for pubsubs to write to (ie: 'http://localhost:8080')")
+    tornado.options.define("pubsub_url", type=str, multiple=True, default=["http://localhost:8080",], help="(multiple) url(s) for pubsubs to write to (ie: 'http://localhost:8080')")
     tornado.options.define("mean", type=float, default=0, help="Mean of the distribution")
     tornado.options.define("variance", type=float, default=1, help="Variance of the distribution")
     tornado.options.define("delay", type=float, default=0, help="Delay between messages in seconds")
